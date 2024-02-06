@@ -1,5 +1,5 @@
-import fs from 'fs';
-const pokemons = JSON.parse(fs.readFileSync('./pokemon.json', 'utf-8'))
+
+import pokemons from "../pokemon.json" assert { type: "json" };
 
 export const getPokemons = (req, res) => {
 
