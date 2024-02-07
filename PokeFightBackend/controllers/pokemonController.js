@@ -1,5 +1,5 @@
 
-import pokemons from "../pokemon.json" assert { type: "json" };
+import pokemons from "../../pokemon.json" assert { type: "json" };
 
 export const getPokemons = (req, res) => {
 
