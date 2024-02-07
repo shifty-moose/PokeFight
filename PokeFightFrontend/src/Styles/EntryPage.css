@@ -1,0 +1,106 @@
+.entryContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(34,34,36);
+    background-image: url('../Images/pokeBackground.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.entryBackground {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.pokeLogo {
+    height: 160px;
+    width: auto;
+    margin-right: 1rem;
+}
+
+.entryTop, .entryBottom {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.entryMiddle {
+    background-color: rgb(34,34,36);
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.entryTop {
+    background-color: rgb(238,21,21);
+}
+
+.entryBottom {
+    background-color: rgb(240,240,240);
+}
+
+.middleBall {
+    background-color: rgb(240, 240, 240);
+    border: 34px solid rgb(34, 34, 36);
+    border-radius: 50%;
+    height: 120px;
+    width: 120px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enterBtn {
+    background: none;
+    border: none;
+    color: rgb(34, 34, 36);
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    height: 90px;
+    width: 90px;
+    position: relative;
+    border-radius: 50%;
+}
+
+.enterBtn:hover {
+    border: 6px solid rgb(34, 34, 36);
+    background-color: rgb(230, 230, 230);
+}
+
+.entryInstructions {
+    font-size: 1.8rem;
+    color: rgb(34, 34, 36);
+    margin-top: 1rem;
+    font-family: 'pkmn_rbygscregular', sans-serif;
+    text-shadow: 1px 1px #A5A5AB;
+}
+
+@keyframes flash {
+    0% { text-decoration: underline; }
+    50% { text-decoration: none; }
+    100% { text-decoration: underline; }
+  }
+  
+  .enterSpan {
+    animation: flash 1.6s linear infinite;
+  }

@@ -1,9 +1,58 @@
-import React from 'react';
+import React, { useEffect, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useAnimate } from 'framer-motion';
+
+import "../Styles/LandingPage.css";
+import buildingSprites from "../Data/buildingSprites";
 
 function LandingPage() {
+
+  const navigate = useNavigate();
+  const [topScope, animateTop] = useAnimate();
+  const [bottomScope, animateBottom] = useAnimate();
+  
+  const handleBuildingClick = () => {
+    console.log('building clicked');
+  };
+
+  useEffect(() => {
+    animateTop(topScope.current, {opacity: 1}, {duration: 3});
+    animateBottom(bottomScope.current, {opacity: 1}, {duration: 3});
+  }, []);
+
   return (
-    <div>
-      <h1>Welcome to the Landing Page!</h1>
+    <div className="landingContainer" >
+      <div className="landingTop" ref={topScope}>
+        {Object.values(buildingSprites).map((building) => {
+          console.log(building.buildingName);
+          return (
+            <div key={building.id} className="buildingWrapper" onClick={() => handleBuildingClick()}>
+              <img
+                className="buildingSprite"
+                src={building.sprite}
+                alt={building.buildingName}
+              />
+              <div className="titleWrapper">
+                <h2 className="buildingName">{building.title}</h2>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="landingBottom" ref={bottomScope}>
+        <div className="instructionWrapper">
+          <div className="landingInstruction">
+            <h2 className='dots'>
+              Welcome to the Landing Page
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+            </h2>
+            <h2>Click on a building to continue!</h2>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
