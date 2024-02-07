@@ -2,7 +2,7 @@
 import pokemons from "../pokemon.json" assert { type: "json" };
 
 export const getPokemons = (req, res) => {
-
+    console.log(pokemons);
     res.json(pokemons)
 };
 
