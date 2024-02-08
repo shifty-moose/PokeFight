@@ -1,0 +1,52 @@
+.headerWrapper {
+    background-color: red;
+}
+
+.pageHeaderTop, .pageHeaderBtm, .pageHeaderMid {
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pageHeaderTop .pageHeaderBtm h1 {
+    padding: 0;
+    margin: 0;
+}
+
+.pageHeaderTop {
+
+}
+
+.pageHeaderMid {
+    background-color: rgb(255, 0, 0);
+    top: 60px;
+    z-index: 1;
+    height: 5px;
+}
+
+.pageHeaderBtm {
+    top: 60px;
+    opacity: 0;
+}
+
+.pokeBall {
+    height: 40px;
+    width: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pokeBallImg {
+    height: 60px;
+    width: 60px;
+    filter: drop-shadow(0 0 0.2rem rgb(255, 0, 0));
+}
