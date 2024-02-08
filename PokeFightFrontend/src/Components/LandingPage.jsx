@@ -43,13 +43,14 @@ function LandingPage() {
       <div className="landingBottom" ref={bottomScope}>
         <div className="instructionWrapper">
           <div className="landingInstruction">
+            <h2>Welcome to PokéFight !</h2>
             <h2 className='dots'>
-              Welcome to the Landing Page
+            Click on a building to continue
                 <span>.</span>
                 <span>.</span>
                 <span>.</span>
             </h2>
-            <h2>Click on a building to continue!</h2>
+
           </div>
         </div>
       </div>

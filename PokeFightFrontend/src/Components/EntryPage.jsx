@@ -5,7 +5,7 @@ import { useAnimate } from 'framer-motion';
 import '../Styles/EntryPage.css';
 import logo from '../Images/pokeFightLogo.png';
 
-const EntryPage = () => {
+const EntryPage = ({toggleAudio}) => {
 
     const navigate = useNavigate();
     const [topScope, animateTop] = useAnimate();
@@ -14,6 +14,7 @@ const EntryPage = () => {
     const [backgroundScope, animateBackground] = useAnimate();
 
     const navigateToHome = () => {
+        toggleAudio();
         animateTop(topScope.current, { y: -window.innerHeight}, {duration: 1.5});
         animateMiddle(middleScope.current, { y: window.innerHeight}, {duration: 1.5, delay: 0});
         animateBottom(bottomScope.current, { y: window.innerHeight}, {duration: 1.5, delay: 0});

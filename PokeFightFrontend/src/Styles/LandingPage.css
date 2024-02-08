@@ -11,6 +11,7 @@
     background-position: center;
     background-repeat: no-repeat;
     overflow-x: hidden;
+    cursor: url('../Images/PokémonSapphireAvatar.cur'), auto;
 }
 
 .landingTop {
@@ -28,7 +29,7 @@
     height: 160px;
     transform: scale(1.0);
     transition: transform 0.5s;
-    cursor: pointer;
+    cursor: url('../Images/cursor.cur'), auto;
 }
 
 .buildingSprite:hover  {
@@ -40,11 +41,11 @@
     color: #555555;
     font-family: 'pkmn_rbygscregular', serif;
     font-size: 1.5rem;
-    text-shadow: 1px 1px #7e7e83;
+    text-shadow: 2px 2px #c0b16f;
     margin-top: 2rem;
     padding: 0.4rem 0.6rem
-
 }
+
 
 .landingBottom {
     height: 50%;
