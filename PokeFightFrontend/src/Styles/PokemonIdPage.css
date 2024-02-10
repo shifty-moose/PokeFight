@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    /* background-image: url('../Images/pokedexbackgroundtexture.png'); */
+    background-image: url('../Images/pokedexbackgroundtexture.png');
     background-size: contain;
     background-repeat: repeat;
 }
