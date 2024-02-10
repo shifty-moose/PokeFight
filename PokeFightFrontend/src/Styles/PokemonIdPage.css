@@ -5,8 +5,7 @@
     justify-content: center;
     height: 100vh;
     background-image: url('../Images/pokedexbackgroundtexture.png');
-    background-size: contain;
-    background-repeat: repeat;
+    background-size: cover;
 }
 
 .pokemonViewWrapper h1 {
@@ -54,8 +53,9 @@
 
 
 .pokemonViewContainer, .pokemonViewContainerLoading {
-    width: 600px;
     height: auto;
+    max-width: 600px;
+    max-height: 700px;
     border: 12px solid #ff2200;
     box-shadow: 4px 4px 0 8px #323030;
     display: flex;
@@ -113,8 +113,22 @@
 .evolution {
     padding: 0;
     margin: 0;
+    position: relative;
 }
 
+.activeSprite {
+    border-radius: 50%;
+    position: relative;
+}
+
+.activeSprite::after {
+    content: '▲';
+    color: black;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 .pokemonViewImg img {
     height: 100%;
@@ -159,11 +173,11 @@
 }
 
 .labelOdd {
-    background-color: #90c0de;
+    background-color: #7b8d96;
 }
 
 .labelEven {
-    background-color: #5c8bc8;
+    background-color: #7c88a0;
 }
 
 .tableValue {

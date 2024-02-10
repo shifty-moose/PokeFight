@@ -15,28 +15,61 @@ const PokemonIdPage = () => {
     return randomDescription;
   };
 
-  const evaluateEvolutionChain = (evolutionChain) => {
+  const evaluateEvolutionChain = (evolutionChain, currentPokemonName) => {
 
     if (evolutionChain.chain.evolves_to.length > 0) {
 
       if (evolutionChain.chain.evolves_to[0].evolves_to.length > 0) {
         evolutionChain = {
-          firstEvolution: evolutionChain.chain.species.name,
-          secondEvolution: evolutionChain.chain.evolves_to[0].species.name,
-          thirdEvolution: evolutionChain.chain.evolves_to[0].evolves_to[0].species.name
+
+          firstEvolution: {
+            name: evolutionChain.chain.species.name,
+            isActive: false
+          },
+
+          secondEvolution: {
+            name: evolutionChain.chain.evolves_to[0].species.name,
+            isActive: false
+          },
+
+          thirdEvolution: {
+            name: evolutionChain.chain.evolves_to[0].evolves_to[0].species.name,
+            isActive: false
+          }
         };
+
       } else {
         evolutionChain = {
-          firstEvolution: evolutionChain.chain.species.name,
-          secondEvolution: evolutionChain.chain.evolves_to[0].species.name
+          firstEvolution: {
+            name: evolutionChain.chain.species.name,
+            isActive: false
+          },
+
+          secondEvolution: {
+            name: evolutionChain.chain.evolves_to[0].species.name,
+            isActive: false
+          }
+
         };
       };
 
     } else {
       evolutionChain = {
-        firstEvolution: evolutionChain.chain.species.name
+
+        firstEvolution: {
+          name: evolutionChain.chain.species.name,
+          isActive: false
+        }
       };
     };
+
+    for (let evolution in evolutionChain) {
+      if (evolutionChain[evolution].name === currentPokemonName) {
+        evolutionChain[evolution].isActive = true;
+      }
+    };
+
+    console.log(evolutionChain);
 
     return evolutionChain;
 
@@ -146,6 +179,7 @@ const PokemonIdPage = () => {
     return chosenBadge;
   };
 
+  // Function to generate a random number between 1 and 200 to test. Will be removed later.
   function generateRandomNumber() {
     return Math.floor(Math.random() * 200) + 1;
   }
@@ -192,32 +226,34 @@ const PokemonIdPage = () => {
         return extraInfoObject;
       };
 
-      const getEvolutionChain = async (speciesInfo) => {
+      const getEvolutionChain = async (basicInfo, speciesInfo) => {
 
         const pokemonEvolutionInfo = await fetch(`${speciesInfo.evolution_chain.url}`);
         const pokemonEvolutionInfoJson = await pokemonEvolutionInfo.json();
 
-        const evaluatedEvolutions = evaluateEvolutionChain(pokemonEvolutionInfoJson);
+        const evaluatedEvolutions = evaluateEvolutionChain(pokemonEvolutionInfoJson, basicInfo.name);
         const evaluatedArray = Object.values(evaluatedEvolutions);
 
+        console.log(evaluatedArray);
+
         const fetchEvolutionSprites = async () => {
-          const updatedArray = [];
-          for (let evolution of evaluatedArray) {
-            const evolutionSprite = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolution}`);
+          const updatedArray = [...evaluatedArray];
+          for (let evolution of updatedArray) {
+            const evolutionSprite = await fetch(`https://pokeapi.co/api/v2/pokemon/${evolution.name}`);
             const evolutionSpriteJson = await evolutionSprite.json();
-            updatedArray.push(evolutionSpriteJson.sprites.front_default);
+            evolution.sprite = evolutionSpriteJson.sprites.front_default;
           }
           return updatedArray;
         };
 
-        const updatedEvaluatedArray = await fetchEvolutionSprites();
-        return updatedEvaluatedArray;
+        const evolutionChain = await fetchEvolutionSprites();
+        return evolutionChain;
 
       };
 
       const basicInfo = await getBasicInfo();
       const extraInfo = await getExtraInfo(basicInfo);
-      const evolutionChain = await getEvolutionChain(extraInfo);
+      const evolutionChain = await getEvolutionChain(basicInfo, extraInfo);
 
       const pokemonObject = {
         basicInfo: basicInfo,
@@ -260,17 +296,15 @@ const PokemonIdPage = () => {
     typesBadgeArray.push(getTypeBadge(type.type.name));
   });
 
-  let animationScope = scope.current;
+  let pokemonName = pokemon.basicInfo.name;
+  pokemonName = pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1);
 
-  animationScope ? animate(animationScope, {opacity: 1}, {duration: 1}) : null;
-
-    
   return (
     <div className='pokemonViewWrapper'>
       <div className='pokemonViewContainer' >
 
         <div className='pokemonViewHeader'>
-          <h1>{pokemon.basicInfo.name}</h1>
+          <h1>{pokemonName}</h1>
           <div className='pokemonTypeBadges'>
           {typesBadgeArray.map((badge, index) => (
             <img className='pokeTypeLogo' src={`${badge}`} alt='typeBadge' key={index} />
@@ -280,7 +314,7 @@ const PokemonIdPage = () => {
 
         <div className='pokemonView'>
 
-          <div className='pokemonViewImg' ref={scope}>
+          <div className='pokemonViewImg'>
             <img src={pokemon.basicInfo.sprite} alt="{pokemon.name}" />
           </div>
           <div className='pokemonViewInfo'>
@@ -313,15 +347,21 @@ const PokemonIdPage = () => {
             </tbody>
           </table>
           <div className='evolutions'>
-              {pokemon.evolutionChain.map((evolution, index) => {
-                return (
-                  <div key={index} className='evolution'>
-                    <img src={evolution} alt='evolutionSprite' />
-                  </div>
-                )
-              })}
-
-            </div>
+            {Object.keys(pokemon.evolutionChain).map((evolution, index) => {
+              console.log(pokemon.evolutionChain[evolution]);
+              return (
+                <div 
+                  key={index} 
+                  className={pokemon.evolutionChain[evolution].isActive ? 'evolution activeSprite' : 'evolution inactiveSprite'}
+                >
+                  <img 
+                    src={pokemon.evolutionChain[evolution].sprite} 
+                    alt={pokemon.evolutionChain[evolution].name}
+                  />
+                </div>
+              )
+            })}
+          </div>
           </div>
 
         </div>
