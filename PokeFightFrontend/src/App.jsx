@@ -15,6 +15,9 @@ function App() {
     const [showMediaPlayer, setShowMediaPlayer] = useState(false);
     const audioRef = useRef(null);
 
+    const [pokedexAudioPlaying, setPokedexAudioPlaying] = useState(false);
+    const pokedexAudioRef = useRef(null);
+
     const toggleAudio = () => {
         if(playing) {
             audioRef.current.volume = 0;
@@ -37,7 +40,13 @@ function App() {
 
     return (
       <BrowserRouter>
-        <MediaPlayer audioRef={audioRef} toggleAudio={toggleAudio} playing={playing} showMediaPlayer={showMediaPlayer} />
+        <MediaPlayer 
+        audioRef={audioRef} 
+        toggleAudio={toggleAudio} 
+        playing={playing}
+        pokedexAudioRef={pokedexAudioRef}
+        pokedexAudioPlaying={pokedexAudioPlaying} 
+        showMediaPlayer={showMediaPlayer} />
         <Routes>
           <Route path="/" element={<EntryPage toggleAudio={startAudio}  />} />
           <Route path="/home" element={<LandingPage />}/>

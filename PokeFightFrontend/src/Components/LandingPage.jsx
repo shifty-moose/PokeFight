@@ -13,7 +13,7 @@ function LandingPage() {
   
   const handleBuildingClick = () => {
     console.log('building clicked');
-    navigate('/test');
+    navigate('/pokemon/1');
   };
 
   useEffect(() => {
