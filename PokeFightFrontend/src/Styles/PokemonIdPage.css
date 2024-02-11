@@ -1,6 +1,6 @@
 .pokemonViewWrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -8,7 +8,84 @@
     background-size: cover;
 }
 
-.pokemonViewWrapper h1 {
+.backPageBtn {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    font-family: 'pkmn_rbygscregular', serif;
+    border-radius: 0.5rem;
+    background: none;
+    border: none;
+    color: rgb(75, 75, 75);
+    border: 4px solid #a3a3a3;
+    box-shadow: 1px 1px 0 2px #323030;
+    background-color: #d3d3d3;
+    cursor: pointer;
+}
+
+.backPageBtn:hover {
+    box-shadow: 1px 1px 0 2px #323030;
+    transform: scale(1.02);
+}
+
+.backPageBtn:active {
+    box-shadow: 1px 1px 0 1px #323030;
+    transform: scale(1);
+    transition: 0.1s;
+}
+
+.pokemonViewContainer, .pokemonViewContainerLoading {
+    height: auto;
+    max-width: 600px;
+    max-height: 700px;
+    border: 12px solid #ff2200;
+    box-shadow: 4px 4px 0 8px #323030;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #cf2525;
+    padding: 0.8rem 0.2rem;
+    border-radius: 2rem 0.5rem 0.5rem 0.5rem;
+    opacity: 1;
+}
+
+.pokemonViewContainerLoading {
+    width: 600px;
+}
+
+.arrowSymbolLeft, .arrowSymbolRight {
+    font-size: 2rem;
+    padding: 0.4rem 0.8rem;
+    margin: 0rem 3rem;
+    border-radius: 0.5rem;
+    background: none;
+    border: none;
+    color: rgb(230, 230, 230);
+    border: 8px solid #ff2200;
+    box-shadow: 2px 2px 0 4px #323030;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #cf2525;
+    cursor: pointer;
+}
+
+.arrowSymbolRight:hover, .arrowSymbolLeft:hover{
+    box-shadow: 2px 2px 0 4px #323030;
+    transform: scale(1.1);
+}
+
+.arrowSymbolRight:active, .arrowSymbolLeft:active {
+    box-shadow: 1px 1px 0 2px #323030;
+    transform: scale(1.05);
+    transition: 0.1s;
+}
+
+
+
+.pokemonViewHeader h1, .pokemonViewContainerLoading h1 {
     color: rgb(100, 100, 100);
     margin: 0;
     font-family: 'pkmn_rbygscregular', serif;
@@ -18,10 +95,7 @@
     border-right: 4px solid #6d7476;
     width: auto;
     text-align: left;
-
 }
-
-
 
 .pokemonViewHeader {
     display: flex;
@@ -49,22 +123,6 @@
     margin-right: 0.8rem;
     border-radius: 50%;
     box-shadow: 1.5px 1.5px 8px 2px #989797;
-}
-
-
-.pokemonViewContainer, .pokemonViewContainerLoading {
-    height: auto;
-    max-width: 600px;
-    max-height: 700px;
-    border: 12px solid #ff2200;
-    box-shadow: 4px 4px 0 8px #323030;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    background-color: #cf2525;
-    padding: 0.8rem 0.2rem;
-    border-radius: 2rem 0.5rem 0.5rem 0.5rem;
-    opacity: 1;
 }
 
 .pokemonViewContainerLoading {
@@ -114,6 +172,10 @@
     padding: 0;
     margin: 0;
     position: relative;
+}
+
+.inactiveSprite img {
+    cursor: pointer;
 }
 
 .activeSprite {

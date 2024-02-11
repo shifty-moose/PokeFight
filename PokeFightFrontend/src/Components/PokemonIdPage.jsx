@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAnimate } from 'framer-motion';
 import Header from './Header.jsx';
 import '../Styles/PokemonIdPage.css';
@@ -8,6 +9,7 @@ const PokemonIdPage = () => {
   const [loading, setLoading] = useState(true);
 
   const [scope, animate] = useAnimate();
+  const navigate = useNavigate();
 
   const getRandomDescription = (flavorText) => {
     let randomIndex = Math.floor(Math.random() * flavorText.length);
@@ -68,8 +70,6 @@ const PokemonIdPage = () => {
         evolutionChain[evolution].isActive = true;
       }
     };
-
-    console.log(evolutionChain);
 
     return evolutionChain;
 
@@ -179,17 +179,33 @@ const PokemonIdPage = () => {
     return chosenBadge;
   };
 
+  const navigateHome = () => {
+    console.log('home');
+    navigate('/home');
+  };
+
+  const navigateRight = () => {
+    console.log('right');
+  };
+
+  const navigateLeft = () => {
+    console.log('left');
+  };
+
   // Function to generate a random number between 1 and 200 to test. Will be removed later.
   function generateRandomNumber() {
     return Math.floor(Math.random() * 200) + 1;
   }
   const randomPokemonId = generateRandomNumber();
 
+  // Variable to test the props. Will be removed later.
+  const pokemonIdTest = 25;
+
   const getPokemon = async () => {
     try {
 
       const getBasicInfo = async () => {
-        const pokemonBasicInfo = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`);
+        const pokemonBasicInfo = await fetch(`https://pokeapi.co/api/v2/pokemon/${12}`);
         const pokemonBasicInfoJson = await pokemonBasicInfo.json();
 
         const pokemonName = pokemonBasicInfoJson.name;
@@ -233,8 +249,6 @@ const PokemonIdPage = () => {
 
         const evaluatedEvolutions = evaluateEvolutionChain(pokemonEvolutionInfoJson, basicInfo.name);
         const evaluatedArray = Object.values(evaluatedEvolutions);
-
-        console.log(evaluatedArray);
 
         const fetchEvolutionSprites = async () => {
           const updatedArray = [...evaluatedArray];
@@ -301,13 +315,17 @@ const PokemonIdPage = () => {
 
   return (
     <div className='pokemonViewWrapper'>
+
+      <button className='backPageBtn'onClick={navigateHome}>← Back to Pokédex</button>
+
+      <button className='arrowSymbolLeft' onClick={navigateLeft}>◄</button>
       <div className='pokemonViewContainer' >
 
         <div className='pokemonViewHeader'>
           <h1>{pokemonName}</h1>
           <div className='pokemonTypeBadges'>
           {typesBadgeArray.map((badge, index) => (
-            <img className='pokeTypeLogo' src={`${badge}`} alt='typeBadge' key={index} />
+            <img className='pokeTypeLogo 1' src={`${badge}`} alt={`typeBadge${index + 1}`} key={index} />
           ))}
           </div>
         </div>
@@ -348,7 +366,6 @@ const PokemonIdPage = () => {
           </table>
           <div className='evolutions'>
             {Object.keys(pokemon.evolutionChain).map((evolution, index) => {
-              console.log(pokemon.evolutionChain[evolution]);
               return (
                 <div 
                   key={index} 
@@ -357,6 +374,7 @@ const PokemonIdPage = () => {
                   <img 
                     src={pokemon.evolutionChain[evolution].sprite} 
                     alt={pokemon.evolutionChain[evolution].name}
+                    className 
                   />
                 </div>
               )
@@ -372,6 +390,8 @@ const PokemonIdPage = () => {
 
 
       </div>
+      <button className='arrowSymbolRight' onClick={navigateRight}>►</button>
+
     </div>
   ) 
 }
