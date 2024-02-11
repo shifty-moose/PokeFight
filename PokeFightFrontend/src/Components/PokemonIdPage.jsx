@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAnimate } from 'framer-motion';
-import Header from './Header.jsx';
 import '../Styles/PokemonIdPage.css';
 
 const PokemonIdPage = () => {
@@ -12,12 +11,14 @@ const PokemonIdPage = () => {
   const navigate = useNavigate();
 
 
+  // A function to grab a random description from the array of flavour text entries
   const getRandomDescription = (flavorText) => {
     let randomIndex = Math.floor(Math.random() * flavorText.length);
     let randomDescription = flavorText[randomIndex].flavor_text;
     return randomDescription;
   };
 
+  // A function to parse the complex chain of evolutions into a simple array
   const evaluateEvolutionChain = (evolutionChain, currentPokemonName) => {
 
     if (evolutionChain.chain.evolves_to.length > 0) {
@@ -76,6 +77,7 @@ const PokemonIdPage = () => {
 
   };
 
+  // Function that takes the type of the pokemon and returns the corresponding badge image
   const getTypeBadge = (type) => {
     const badges = [
       {
@@ -180,15 +182,18 @@ const PokemonIdPage = () => {
     return chosenBadge;
   };
 
+  // For the Back Button
   const navigateHome = () => {
     console.log('home');
     navigate('/home');
   };
 
+  // For the Right Navigation Arrow
   const navigateRight = () => {
     console.log('right');
   };
 
+  // For the Left Navigation Arrow
   const navigateLeft = () => {
     console.log('left');
   };
@@ -205,6 +210,7 @@ const PokemonIdPage = () => {
   const getPokemon = async () => {
     try {
 
+      // This function is using the basic API call to fetch key data from this call
       const getBasicInfo = async () => {
         const pokemonBasicInfo = await fetch(`https://pokeapi.co/api/v2/pokemon/${12}`);
         const pokemonBasicInfoJson = await pokemonBasicInfo.json();
@@ -228,6 +234,7 @@ const PokemonIdPage = () => {
         return basicInfoObject;
       };
  
+      // This function uses data from the first API call, to make a specific call to the species endpoint for further info
       const getExtraInfo = async (basicInfo) => {
         const pokemonExtraInfo = await fetch(`${basicInfo.species.url}`);
         const pokemonExtraInfoJson = await pokemonExtraInfo.json();
@@ -243,6 +250,7 @@ const PokemonIdPage = () => {
         return extraInfoObject;
       };
 
+      // This function uses data from the previous two API calls to fetch the evolution chain of the pokemon and parse it into an object
       const getEvolutionChain = async (basicInfo, speciesInfo) => {
 
         const pokemonEvolutionInfo = await fetch(`${speciesInfo.evolution_chain.url}`);
@@ -266,6 +274,7 @@ const PokemonIdPage = () => {
 
       };
 
+      // This function uses the data from the previous three API calls to parse the information into a single object for display
       const parseInformationForDisplay = (basicInfo, speciesInfo) => {
 
         let filteredFlavorText = speciesInfo.flavorText.filter((entry) => {
@@ -291,6 +300,7 @@ const PokemonIdPage = () => {
 
       };
 
+      // This is the main part of the function that calls the other functions and sets the state of the pokemon object
       const basicInfo = await getBasicInfo();
       const extraInfo = await getExtraInfo(basicInfo);
       const evolutionChain = await getEvolutionChain(basicInfo, extraInfo);
@@ -312,10 +322,12 @@ const PokemonIdPage = () => {
     }
   };
 
+  // This useEffect hook is used to call the getPokemon function when the component mounts
   useEffect(() => {
     getPokemon();
   }, []);
 
+  // This useEffect hook is used to animate the component when it mounts
   useEffect(() => {
     animate(scope.current, {opacity: 1}, {duration: 1});
   }, [pokemon]);
