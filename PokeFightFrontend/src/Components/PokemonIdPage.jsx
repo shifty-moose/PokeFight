@@ -11,6 +11,7 @@ const PokemonIdPage = () => {
   const [scope, animate] = useAnimate();
   const navigate = useNavigate();
 
+
   const getRandomDescription = (flavorText) => {
     let randomIndex = Math.floor(Math.random() * flavorText.length);
     let randomDescription = flavorText[randomIndex].flavor_text;
@@ -265,14 +266,41 @@ const PokemonIdPage = () => {
 
       };
 
+      const parseInformationForDisplay = (basicInfo, speciesInfo) => {
+
+        let filteredFlavorText = speciesInfo.flavorText.filter((entry) => {
+          return entry.language.name === 'en';
+        });
+        filteredFlavorText = getRandomDescription(filteredFlavorText);
+
+        let typesBadgeArray = [];
+        basicInfo.types.forEach((type) => {
+          typesBadgeArray.push(getTypeBadge(type.type.name));
+        });
+
+        let pokemonName = basicInfo.name;
+        pokemonName = pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1);
+
+        let parsedInfoObject = {
+          filteredFlavorText: filteredFlavorText,
+          typesBadgeArray: typesBadgeArray,
+          pokemonName: pokemonName
+        };
+
+        return parsedInfoObject;
+
+      };
+
       const basicInfo = await getBasicInfo();
       const extraInfo = await getExtraInfo(basicInfo);
       const evolutionChain = await getEvolutionChain(basicInfo, extraInfo);
+      const parsedInfo = parseInformationForDisplay(basicInfo, extraInfo);
 
       const pokemonObject = {
         basicInfo: basicInfo,
         extraInfo: extraInfo,
-        evolutionChain: evolutionChain
+        evolutionChain: evolutionChain,
+        parsedInfo: parsedInfo
       };
 
       setPokemon(pokemonObject);
@@ -288,43 +316,31 @@ const PokemonIdPage = () => {
     getPokemon();
   }, []);
 
-  if(loading) {
-    return (
+  useEffect(() => {
+    animate(scope.current, {opacity: 1}, {duration: 1});
+  }, [pokemon]);
+
+
+  return (
+    <>
+    {loading ? (
       <div className='pokemonViewWrapper'>
-        <div className='pokemonViewContainerLoading'>
+        <div className='pokemonViewContainerLoading' ref={scope}>
           <h1>Loading...</h1>
         </div>
       </div>
-    )
-  };
+    ) : (
 
-  let filteredFlavorText = pokemon.extraInfo.flavorText.filter((entry) => {
-    return entry.language.name === 'en';
-  });
-  
-  filteredFlavorText = getRandomDescription(filteredFlavorText);
-
-  let typesBadgeArray = [];
-
-  pokemon.basicInfo.types.forEach((type) => {
-    typesBadgeArray.push(getTypeBadge(type.type.name));
-  });
-
-  let pokemonName = pokemon.basicInfo.name;
-  pokemonName = pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1);
-
-  return (
-    <div className='pokemonViewWrapper'>
+    <div className='pokemonViewWrapper' ref={scope}>
 
       <button className='backPageBtn'onClick={navigateHome}>← Back to Pokédex</button>
 
       <button className='arrowSymbolLeft' onClick={navigateLeft}>◄</button>
       <div className='pokemonViewContainer' >
-
         <div className='pokemonViewHeader'>
-          <h1>{pokemonName}</h1>
+          <h1>{pokemon.parsedInfo.pokemonName}</h1>
           <div className='pokemonTypeBadges'>
-          {typesBadgeArray.map((badge, index) => (
+          {pokemon.parsedInfo.typesBadgeArray.map((badge, index) => (
             <img className='pokeTypeLogo 1' src={`${badge}`} alt={`typeBadge${index + 1}`} key={index} />
           ))}
           </div>
@@ -374,7 +390,6 @@ const PokemonIdPage = () => {
                   <img 
                     src={pokemon.evolutionChain[evolution].sprite} 
                     alt={pokemon.evolutionChain[evolution].name}
-                    className 
                   />
                 </div>
               )
@@ -385,7 +400,7 @@ const PokemonIdPage = () => {
         </div>
 
         <div className='pokemonViewText'>
-          <p>{filteredFlavorText}</p>
+          <p>{pokemon.parsedInfo.filteredFlavorText}</p>
         </div>
 
 
@@ -393,6 +408,8 @@ const PokemonIdPage = () => {
       <button className='arrowSymbolRight' onClick={navigateRight}>►</button>
 
     </div>
+    )}
+  </>
   ) 
 }
 

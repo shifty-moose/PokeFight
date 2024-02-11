@@ -6,6 +6,7 @@
     height: 100vh;
     background-image: url('../Images/pokedexbackgroundtexture.png');
     background-size: cover;
+    opacity: 0;
 }
 
 .backPageBtn {
