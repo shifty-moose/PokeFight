@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAnimate } from 'framer-motion';
 import '../Styles/PokemonIdPage.css';
 
@@ -9,6 +9,12 @@ const PokemonIdPage = () => {
 
   const [scope, animate] = useAnimate();
   const navigate = useNavigate();
+
+  let {id} = useParams();
+
+  id = parseInt(id);
+
+  console.log(id);
 
 
   // A function to grab a random description from the array of flavour text entries
@@ -190,12 +196,16 @@ const PokemonIdPage = () => {
 
   // For the Right Navigation Arrow
   const navigateRight = () => {
+    setLoading(true);
     console.log('right');
+    navigate(`/pokemon/${id + 1}`)
   };
 
   // For the Left Navigation Arrow
   const navigateLeft = () => {
+    setLoading(true);
     console.log('left');
+    navigate(`/pokemon/${id - 1}`)
   };
 
   // Function to generate a random number between 1 and 200 to test. Will be removed later.
@@ -212,7 +222,7 @@ const PokemonIdPage = () => {
 
       // This function is using the basic API call to fetch key data from this call
       const getBasicInfo = async () => {
-        const pokemonBasicInfo = await fetch(`https://pokeapi.co/api/v2/pokemon/${12}`);
+        const pokemonBasicInfo = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
         const pokemonBasicInfoJson = await pokemonBasicInfo.json();
 
         const pokemonName = pokemonBasicInfoJson.name;
@@ -325,7 +335,7 @@ const PokemonIdPage = () => {
   // This useEffect hook is used to call the getPokemon function when the component mounts
   useEffect(() => {
     getPokemon();
-  }, []);
+  }, [id]);
 
   // This useEffect hook is used to animate the component when it mounts
   useEffect(() => {
