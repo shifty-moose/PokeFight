@@ -1,6 +1,7 @@
 import React from 'react'
 import pokemonAPI from '../../pokemonAPI';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../Styles/Pokedex.css";
 import logo from "../Images/PokeFightLogo.png"
 
@@ -10,6 +11,12 @@ const Pokedex = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const { getPokemons } = pokemonAPI();
+    const navigate = useNavigate();
+
+    const handlePokemonClick = (pokemon) => {
+        console.log(pokemon);
+        navigate(`/pokemon/${pokemon}`);
+    };
 
     const fetchPokemons = async (startId, endId) => {
         try {
@@ -123,12 +130,14 @@ const Pokedex = () => {
 
 
     return (
-        <div>
+        <div className='pokedexWrapper'>
             <img className='logoPokemon' src={logo}></img>
+            <div className='pokedexHeader'>
+            <h1 className='title'>Pokedex</h1>
             <div className='searchbar'>
                 <input
                     type="text"
-                    placeholder="Search Pokémon by name"
+                    placeholder="Search Pokémon by name..."
                     value={searchTerm}
                     onChange={handleSearchChange}
                 />
@@ -144,6 +153,7 @@ const Pokedex = () => {
                     <option value="6">Kalos</option>
                 </select>
             </div>
+            </div>
             {
                 loading ? (
                     <p>Data is loading...</p>
@@ -152,7 +162,7 @@ const Pokedex = () => {
                         <div className="pokemon-list">
                             {filteredPokemons.map((pokemon, index) => (
                                 <div className='background' key={index}>
-                                    <div className="pokemon pokemon-border">
+                                    <div className="pokemon pokemon-border" onClick={() => handlePokemonClick(pokemon.id)}>
                                         <img src={pokemon.sprites.front_default} alt={pokemon.name} />
                                         <p>{formatPokemonId(pokemon.id)}</p>
                                         <h2>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>

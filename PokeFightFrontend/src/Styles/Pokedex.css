@@ -1,220 +1,233 @@
-body {
-    background-image: url("https://camo.githubusercontent.com/df5253470167e973a3fb6a0c7979728d18b59ccfeb0ffa77dd04b5701313188c/68747470733a2f2f7261772e6769746875622e636f6d2f67676f646f6e652d6d6172657363612f4a532d416e696d617465642d427562626c65732d4261636b67726f756e642f6d61737465722f73637265656e73686f742e706e67");
-    background-size: cover;
-    color: white;
+.pokedexWrapper {
+  background-image: url("../Images/pokedexbackgroundtexture.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: white;
+  font-family: "pkmn_rbygscregular", serif;
+  font-size: 0.8rem;
+  min-height: 100vh;
 }
 
 .logoPokemon {
-    width: 700px;
-    height: 250px;
+  width: 400px;
+  height: auto;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
 }
 
-.pokemon-list {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    max-width: 150rem;
-
-}
-
-
-
-.pokemon {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 2rem;
-    transition: transform .4s;
-
-
-}
-
-.pokemon-border {
-    border-style: solid;
-    border-width: 39px;
-    border-image: url("https://www.brucebrotherton.com/images/pokemon-border.png") 39 stretch;
-}
-
-.pokemon img {
-    width: 225px;
-    background-image: url("https://www.svgrepo.com/show/276264/pokeball-pokemon.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-
-
-}
-
-.pokemon:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-
-}
-
-.pokemon p {
-    margin: 0;
-    color: rgb(228, 228, 228);
-}
-
-
-.pokemon h2 {
-    margin: 0;
-    margin-bottom: 25px;
-}
-
-
-.pokemon-types {
-    display: flex;
-    gap: 6px;
-    margin: auto;
-}
-
-.pokemon-type {
-    border-radius: 10px;
-    width: 85px;
-    color: white;
-    font-weight: 500px;
-    font-size: 20px;
-    padding: 3px 8px 5px 8px;
-
-
-}
-
-
-.searchbar {
-    margin-bottom: 20px;
-}
-
-.searchbar input {
-    padding: 10px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.dropdown {
-    margin-bottom: 20px;
+.pokedexHeader {
+    border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 50%;
+    margin: 0 auto; /* Add this line to center the element */
+    background-color: #d5d5d5;
+    color: #505050;
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 0.8rem;
+    text-shadow: 1px 1px #A5A5AB;
+    border: 6px solid #ECC934;
+    box-shadow: 0 0 0 8px #4863A9;
+    margin-bottom: 3rem;
+
+}
+
+.pokedexHeader h1 {
+    color: rgb(83, 83, 83);
+    text-decoration: underline;
+}
+
+.pokemon-list {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 150rem;
+  justify-content: center;
+}
+
+.pokemon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+  transition: transform 0.4s;
+}
+
+.pokemon-border {
+  border-style: solid;
+  border-width: 18px;
+}
+
+.pokemon-border {
+  border-style: solid;
+  border-width: 18px;
+  border-image: url("https://www.brucebrotherton.com/images/pokemon-border.png")
+    39 stretch;
+  background-color: #7da1fcb4;
+}
+
+.pokemon img {
+  width: 225px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.pokemon:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.pokemon p {
+  margin: 0;
+  color: rgb(228, 228, 228);
+}
+
+.pokemon h2 {
+  margin: 0;
+  margin-bottom: 25px;
+}
+
+.pokemon-types {
+  display: flex;
+  gap: 6px;
+  margin: auto;
+}
+
+.pokemon-type {
+  border-radius: 10px;
+  width: 85px;
+  color: white;
+  font-weight: 500px;
+  font-size: 1rem;
+  padding: 3px 8px 5px 8px;
+}
+
+.searchbar {
+  margin-bottom: 20px;
+  font-family: "pkmn_rbygscregular", serif;
+}
+
+.searchbar input {
+  padding: 1rem;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-family: "pkmn_rbygscregular", serif;
+}
+
+.dropdown {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "pkmn_rbygscregular", serif;
 }
 
 .dropdown label {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+  font-family: "pkmn_rbygscregular", serif;
 }
 
 .dropdown select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-family: "pkmn_rbygscregular", serif;
 
 }
-
 
 .ghost-type {
-    background-color: #8c78f0;
-    color: white;
+  background-color: #8c78f0;
+  color: white;
 }
-
 
 .fighting-type {
-    background-color: #c85500;
-    color: white;
+  background-color: #c85500;
+  color: white;
 }
-
-
 
 .rock-type {
-    background-color: #a07850;
-    color: white;
+  background-color: #a07850;
+  color: white;
 }
 
-
 .ground-type {
-    background-color: #cca142;
-    color: white;
+  background-color: #cca142;
+  color: white;
 }
 
 .fairy-type {
-    background-color: #ff7eb8;
-    color: white;
+  background-color: #ff7eb8;
+  color: white;
 }
 
 .ice-type {
-    background-color: #00b7ee;
-    color: white;
+  background-color: #00b7ee;
+  color: white;
 }
 
 .water-type {
-    background-color: #0094e5;
-    color: white;
+  background-color: #0094e5;
+  color: white;
 }
 
 .fire-type {
-    background-color: #ff3700;
-    color: white;
-
+  background-color: #ff3700;
+  color: white;
 }
 
 .dark-type {
-    background-color: #646464;
-    color: white;
-
+  background-color: #646464;
+  color: white;
 }
 
 .normal-type {
-    background-color: #a0a0a0;
-    color: white;
-
+  background-color: #a0a0a0;
+  color: white;
 }
 
-
 .bug-type {
-    background-color: #32b432;
-    color: white;
-
+  background-color: #32b432;
+  color: white;
 }
 
 .grass-type {
-    background-color: #92bf19;
-    color: white;
-
+  background-color: #92bf19;
+  color: white;
 }
 
 .poison-type {
-    background-color: #be78be;
-    color: white;
-
+  background-color: #be78be;
+  color: white;
 }
 
 .flying-type {
-    background-color: #77b9d4;
-    color: white;
-
+  background-color: #77b9d4;
+  color: white;
 }
 
 .dragon-type {
-    background-color: #3c64c8;
-    color: white;
-
+  background-color: #3c64c8;
+  color: white;
 }
 
 .steel-type {
-    background-color: #96b4dc;
-    color: white;
-
+  background-color: #96b4dc;
+  color: white;
 }
 
 .electric-type {
-    background-color: #e4b700;
-    color: white;
-
+  background-color: #e4b700;
+  color: white;
 }
 
 .psychic-type {
-    background-color: #dc78c8;
-    color: white;
-
+  background-color: #dc78c8;
+  color: white;
 }

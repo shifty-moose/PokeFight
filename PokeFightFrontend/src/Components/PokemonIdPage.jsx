@@ -191,7 +191,7 @@ const PokemonIdPage = () => {
   // For the Back Button
   const navigateHome = () => {
     console.log('home');
-    navigate('/home');
+    navigate('/pokemon');
   };
 
   // For the Right Navigation Arrow
@@ -336,12 +336,6 @@ const PokemonIdPage = () => {
   useEffect(() => {
     getPokemon();
   }, [id]);
-
-  // This useEffect hook is used to animate the component when it mounts
-  useEffect(() => {
-    animate(scope.current, {opacity: 1}, {duration: 1});
-  }, [pokemon]);
-
 
   return (
     <>

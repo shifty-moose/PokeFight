@@ -11,10 +11,22 @@ function LandingPage() {
   const [topScope, animateTop] = useAnimate();
   const [bottomScope, animateBottom] = useAnimate();
   
-  const handleBuildingClick = () => {
-    console.log('building clicked');
-    navigate('/pokemon/1');
+  const handleBuildingClick = (e) => {
+    const target = e.target.alt;
+
+    console.log('building clicked', target);
+
+    if (target === 'pokecenter') {
+      navigate('/pokemon');
+    } else {
+      navigate('/battle');
+    };
   };
+
+  const handlePokedexClick = () => {
+    console.log('pokedex clicked');
+    navigate('/pokemon');
+  }
 
   useEffect(() => {
     animateTop(topScope.current, {opacity: 1}, {duration: 3});
@@ -25,9 +37,8 @@ function LandingPage() {
     <div className="landingContainer" >
       <div className="landingTop" ref={topScope}>
         {Object.values(buildingSprites).map((building) => {
-          console.log(building.buildingName);
           return (
-            <div key={building.id} className="buildingWrapper" onClick={() => handleBuildingClick()}>
+            <div key={building.id} className="buildingWrapper" onClick={handleBuildingClick}>
               <img
                 className="buildingSprite"
                 src={building.sprite}

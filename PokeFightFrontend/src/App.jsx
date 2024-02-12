@@ -8,6 +8,7 @@ import PokemonIdPage from "./Components/PokemonIdPage.jsx";
 import Pokedex from "./Components/Pokedex.jsx";
 import EntryPage from "./Components/EntryPage.jsx";
 import MediaPlayer from "./Components/MediaPlayer.jsx";
+import Fight from "./Components/Fight.jsx";
 
 function App() {
 
@@ -52,6 +53,7 @@ function App() {
         <Route path="/home" element={<LandingPage />} />
         <Route path="/pokemon/" element={<Pokedex />} />
         <Route path="/pokemon/:id" element={<PokemonIdPage />} />
+        <Route path='/fight' element={<Fight />} />
 
       </Routes>
     </BrowserRouter>
