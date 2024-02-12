@@ -1,0 +1,292 @@
+
+/* The entire page container */
+.pokemonViewWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('../Images/pokedexbackgroundtexture.png');
+    background-size: cover;
+    opacity: 0;
+}
+
+/* The Back Button */
+.backPageBtn {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    font-family: 'pkmn_rbygscregular', serif;
+    border-radius: 0.5rem;
+    background: none;
+    border: none;
+    color: rgb(75, 75, 75);
+    border: 4px solid #a3a3a3;
+    box-shadow: 1px 1px 0 2px #323030;
+    background-color: #d3d3d3;
+    cursor: pointer;
+}
+
+.backPageBtn:hover {
+    box-shadow: 1px 1px 0 2px #323030;
+    transform: scale(1.02);
+}
+
+.backPageBtn:active {
+    box-shadow: 1px 1px 0 1px #323030;
+    transform: scale(1);
+    transition: 0.1s;
+}
+
+
+/* The Arrow Buttons */
+
+.arrowSymbolLeft, .arrowSymbolRight {
+    font-size: 2rem;
+    padding: 0.4rem 0.8rem;
+    margin: 0rem 3rem;
+    border-radius: 0.5rem;
+    background: none;
+    border: none;
+    color: rgb(230, 230, 230);
+    border: 8px solid #ff2200;
+    box-shadow: 2px 2px 0 4px #323030;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #cf2525;
+    cursor: pointer;
+}
+
+.arrowSymbolRight:hover, .arrowSymbolLeft:hover{
+    box-shadow: 2px 2px 0 4px #323030;
+    transform: scale(1.1);
+}
+
+.arrowSymbolRight:active, .arrowSymbolLeft:active {
+    box-shadow: 1px 1px 0 2px #323030;
+    transform: scale(1.05);
+    transition: 0.1s;
+}
+
+/* The Div that contains the PokeDex View or the Loading View */
+
+.pokemonViewContainer, .pokemonViewContainerLoading {
+    height: auto;
+    max-width: 600px;
+    max-height: 700px;
+    border: 12px solid #ff2200;
+    box-shadow: 4px 4px 0 8px #323030;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #cf2525;
+    padding: 0.8rem 0.2rem;
+    border-radius: 2rem 0.5rem 0.5rem 0.5rem;
+    opacity: 1;
+}
+
+.pokemonViewContainerLoading {
+    width: 600px;
+    opacity: 1;
+}
+
+/* The Top Layer of the Pokedex - H1 and Type Badges */
+.pokemonViewHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 0rem;
+    background-color: #d3d5d6;
+    margin: 0.2rem 1rem 0.5rem;
+    border: 4px solid #262727;
+    border-radius: 1rem 0rem 0rem 0rem;
+}
+
+.pokemonViewHeader h1, .pokemonViewContainerLoading h1 {
+    color: rgb(100, 100, 100);
+    margin: 0;
+    font-family: 'pkmn_rbygscregular', serif;
+    background-color: rgb(244, 244, 244);
+    padding: 0.2rem 3.6rem 0.2rem 2rem;
+    border-radius: 1rem 0rem 0rem 0rem;
+    border-right: 4px solid #6d7476;
+    width: auto;
+    text-align: left;
+}
+
+.pokemonTypeBadges {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.pokeTypeLogo {
+    height: 20px;
+    width: 20px;
+    margin: 0;
+    margin-right: 0.8rem;
+    border-radius: 50%;
+    box-shadow: 1.5px 1.5px 8px 2px #989797;
+}
+
+/* The Div for the Main Pokemon Img, Evolutions and the Pokemon Stats */
+.pokemonView {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Main Pokemon Sprite */
+.pokemonViewImg {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 50%;
+    border: 10px solid #CDCDCD;
+    box-shadow: 0 0 0 4px #363636; 
+    border-radius: 0.5rem;
+    background-image: url('../Images/pokedexBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 1rem 0.5rem 0.5rem 1rem;
+}
+
+.pokemonViewImg img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+/* The Div that contains the Pokemon Evolution Chain */
+.evolutions {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.8rem;
+    background-color: #F8F8F8;
+    background-image:  linear-gradient(#dadada 1.3px, transparent 1.3px), linear-gradient(to right, #dadada 1.3px, #F8F8F8 1.3px);
+    background-size: 26px 26px;
+    border-radius: 0.4rem;
+    border: 4px solid #363636;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0.5rem 1rem;
+}
+
+.evolution {
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+.inactiveSprite img {
+    cursor: pointer;
+}
+
+.activeSprite {
+    border-radius: 50%;
+    position: relative;
+}
+
+/* Setting a Pseudo Element to the Active Sprite */
+.activeSprite::after {
+    content: '▲';
+    color: black;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* The Div that contains the Pokemon Stats */
+.pokemonViewInfo {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #929292;
+    padding: 0.4rem;
+    border: 2px solid #EFD76F;
+    box-shadow: 0 0 0 4px #606067; 
+    border-radius: 0.5rem;
+    margin: 1rem 1rem 0.5rem 0.5rem;
+}
+
+.statTable {
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 1rem;
+    border: 2px solid #424242;
+    background-color: #657482;
+    border-radius: 0.3rem;
+    width: 100%;
+}
+
+.statTable td {
+    padding: 0.6rem;
+    border-radius: 0.2rem;
+}
+
+/* The Table Labels and Values */
+.tableLabel {
+    text-align: left;
+    color: rgb(234, 234, 234);
+    text-shadow: 2px 2px #838383;
+}
+
+.labelOdd {
+    background-color: #7b8d96;
+}
+
+.labelEven {
+    background-color: #7c88a0;
+}
+
+.tableValue {
+    text-align: right;
+    color: #424242;
+    text-shadow: 2px 2px #b2b2b2;
+}
+
+.valueOdd {
+    background-color: #E1E8E7;
+}
+
+.valueEven {
+    background-color: #C9CFD6;
+}
+
+/* The Div that contains the Pokemon Description */
+.pokemonViewText {
+    background-color: #CDCDCD;
+    border-radius:  0.5rem;
+    padding: 0rem;
+    border: 4px solid #0fe75a;
+    box-shadow: 0 0 0 4px #606067;
+    height: auto;
+    width: auto;
+    margin: 0.5rem 1rem;
+}
+
+.pokemonViewText p {
+    text-align: left;
+    padding: 0.8rem 2rem 0.8rem 1.4rem;
+    background-color: #EBEBEB;
+    color: #515158;
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 0.8rem;
+    text-shadow: 1px 1px #A5A5AB;
+    border-radius: 0.5rem;
+    margin: 0.5rem 4rem 0.5rem 0.8rem;
+    margin-right: 2rem;
+    line-height: 2rem;
+    word-spacing: 0.2rem;
+    border: 4px solid #657482;
+}

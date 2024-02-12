@@ -1,0 +1,35 @@
+.mediaPlayerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    background-color: rgba(255, 255, 255, 0.882);
+    padding: 0.3rem 0.4rem 0rem 0.4rem;
+    border-radius: 0.5rem;
+    opacity: 1;
+    transform: 1s;
+}
+
+.mediaPlayerContainer h1 {
+    color: red;
+}
+
+.mediaPlayerContainer button {
+    border: none;
+    background: none;
+    color: red;
+}
+
+.mediaPlayerContainer button:hover {
+    cursor: url('../Images/cursor.cur'), auto;
+    color: rgb(124, 0, 0);
+}
+
+.hidden {
+    opacity: 0;
+    transition: 1s;
+
+}
