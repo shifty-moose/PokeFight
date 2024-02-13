@@ -75,7 +75,7 @@
 .pokemonViewContainer, .pokemonViewContainerLoading {
     height: auto;
     max-width: 600px;
-    max-height: 700px;
+    max-height: 750px;
     border: 12px solid #ff2200;
     box-shadow: 4px 4px 0 8px #323030;
     display: flex;

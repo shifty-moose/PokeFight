@@ -19,7 +19,7 @@ function LandingPage() {
     if (target === 'pokecenter') {
       navigate('/pokemon');
     } else {
-      navigate('/battle');
+      navigate('/fight');
     };
   };
 

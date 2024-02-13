@@ -13,6 +13,8 @@ const Pokedex = () => {
     const { getPokemons } = pokemonAPI();
     const navigate = useNavigate();
 
+    
+
     const handlePokemonClick = (pokemon) => {
         console.log(pokemon);
         navigate(`/pokemon/${pokemon}`);
@@ -128,9 +130,15 @@ const Pokedex = () => {
         pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const navigateHome = () => {
+        navigate('/home');
+      };
+
 
     return (
         <div className='pokedexWrapper'>
+            <button className='backPageBtn'onClick={navigateHome}>← Back to Landing Page</button>
+
             <img className='logoPokemon' src={logo}></img>
             <div className='pokedexHeader'>
             <h1 className='title'>Pokedex</h1>

@@ -1,7 +1,11 @@
 import React from 'react';
+import {useAnimate} from 'framer-motion';
 import "../Styles/Fight.css";
 
 const Fight = () => {
+
+    const [spriteOne, animateSpriteOne] = useAnimate();
+    const [spriteTwo, animateSpriteTwo] = useAnimate();
 
     const pokemon1 = {
         name: 'PIKACHU',
@@ -27,8 +31,15 @@ const Fight = () => {
         sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png'
     };
 
-    console.log(pokemon1.sprite);
-    console.log(pokemon2.sprite);
+    const handleClick = () => {
+        animateSpriteOne(spriteOne.current, {x: 80, y: -30, transition: {duration: 0.3}});
+        setTimeout(() => animateSpriteOne(spriteOne.current, {x: 0, y: 0, transition: {duration: 0.3}}), 300);
+    };
+
+    const handleClick2 = () => {
+        animateSpriteTwo(spriteTwo.current, {x: -80, y: 30, transition: {duration: 0.3}});
+        setTimeout(() => animateSpriteTwo(spriteTwo.current, {x: 0, y: 0, transition: {duration: 0.3}}), 300);
+    }
 
 
   return (
@@ -38,9 +49,12 @@ const Fight = () => {
                 <div className="fightTopRowLeft">
                     <div className='topPokemonStatScreen'>
                         <div className='statsDiv topLeftStatsDiv'>
-                            <h3>{pokemon1.name}</h3>
-                            <div className='hpBar'>
-                                <div className='hpBarFill' style={{width: `${pokemon1.hp}%`}}></div>
+                            <h3>{pokemon2.name}</h3>
+                            <div className='hpBarContainer'>
+                                <h5>HP:</h5>
+                                <div className='hpBar'>
+                                    <div className='hpBarFill' style={{width: `${90}%`}}></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -48,7 +62,7 @@ const Fight = () => {
 
                 <div className="fightTopRowRight">
                     <div className='pokemonSprite topPokemonSprite'>
-                        <img src={pokemon2.sprite} alt="Bulbasaur" />
+                        <img src={pokemon2.sprite} alt="Bulbasaur" ref={spriteTwo}/>
                     </div>
                 </div>
             </div>
@@ -56,16 +70,19 @@ const Fight = () => {
             <div className="fightBottomRow">
                 <div className="fightBottomRowLeft">
                     <div className='pokemonSprite bottomPokemonSprite'>
-                        <img src={pokemon1.sprite} alt="Pikachu" />
+                        <img src={pokemon1.sprite} alt="Pikachu" ref={spriteOne}/>
                     </div>
                 </div>
 
                 <div className="fightBottomRowRight">
                     <div className='bottomPokemonStatScreen'>
                         <div className='statsDiv bottomRightStatsDiv'>
-                            <h3>{pokemon2.name}</h3>
+                            <h3>{pokemon1.name}</h3>
+                            <div className='hpBarContainer'>
+                                <h5>HP:</h5>
                             <div className='hpBar'>
-                                <div className='hpBarFill' style={{width: `${pokemon2.hp}%`}}></div>
+                                <div className='hpBarFill' style={{width: `${55}%`}}></div>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -76,8 +93,8 @@ const Fight = () => {
                 <div className="fightStatsLeft">
                     <div className="attackMoves">
                         <div className="attackMoveContainer">
-                        <h3>Attack</h3>
-                        <h3>Sp. Attack</h3>
+                        <h3 onClick={handleClick}>Attack</h3>
+                        <h3 onClick={handleClick2}>Sp. Attack</h3>
                         </div>
                     </div>
                 </div>
