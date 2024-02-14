@@ -14,8 +14,8 @@
     background-size: cover;
     background-repeat: repeat-x;
     background-position: center;
-    height: auto;
-    width: 60%;
+    height: 700px;
+    width: 1000px;
     border-radius: 4rem 2rem 1rem 1rem;
     border: 2rem solid rgb(15, 15, 15);
     box-shadow: 0 0 0 3rem #f2ce44;
@@ -135,6 +135,7 @@
 .bottomRightStatsDiv {
     border-radius: 0.5rem 1rem 0.5rem 1rem;
     box-shadow: 5px 5px 5px 1px #444444;
+
 }
 
 .statsDiv h3 {
@@ -175,7 +176,7 @@
 }
 
 .pokemonSprite {
-    background-image:  url('../Images/fightscreengrass.png');
+    background-image: url('../Images/fightscreengrass.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center 90px;
@@ -200,10 +201,10 @@
     box-sizing: border-box;
     border: 6px solid rgb(177, 177, 177);
     background-color: #606067;
-    border-radius:  0rem;
+    border-radius: 0rem;
     padding: 0rem;
     border: 2px solid #EFD76F;
-    box-shadow: 0 0 0 4px #606067; 
+    box-shadow: 0 0 0 4px #606067;
     padding-right: 6rem;
 }
 
@@ -230,11 +231,12 @@
 
 .attackMoveContainer h3 {
     position: relative;
-    
+
 }
+
 .attackMoveContainer h3:hover {
     text-decoration: underline;
-    cursor: pointer;    
+    cursor: pointer;
 }
 
 .attackMoveContainer h3:hover::before {
@@ -244,4 +246,12 @@
     position: absolute;
     top: 0;
     left: -1.5rem;
+}
+
+
+.hpBarFill {
+    background-color: green;
+    height: 100%;
+    transition: width 0.1s ease-in-out;
+    /* Smoothly transition width changes */
 }
