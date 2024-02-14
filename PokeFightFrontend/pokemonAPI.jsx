@@ -10,8 +10,8 @@ const pokemonAPI = () => {
             const pokemonDataArray = await Promise.all(results.map(async (pokemon) => {
                 const res = await fetch(pokemon.url);
                 const data = await res.json();
-                const { name, sprites, id, types } = data;
-                return { name, sprites, id, types };
+                const { name, sprites, id, types, stats } = data;
+                return { name, sprites, id, types, stats };
             }));
 
             return pokemonDataArray;

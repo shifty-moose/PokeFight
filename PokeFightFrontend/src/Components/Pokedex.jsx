@@ -2,6 +2,7 @@ import React from 'react'
 import pokemonAPI from '../../pokemonAPI';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAnimate } from 'framer-motion';
 import "../Styles/Pokedex.css";
 import logo from "../Images/PokeFightLogo.png"
 
@@ -10,10 +11,16 @@ const Pokedex = () => {
     const [pokemons, setPokemons] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const { getPokemons } = pokemonAPI();
-    const navigate = useNavigate();
 
-    
+    const { getPokemons } = pokemonAPI();
+
+    const navigate = useNavigate();
+    const [pageScope, animatePage] = useAnimate();
+
+    const pageInAnimation = () => {
+        console.log(pageScope.current);
+        animatePage(pageScope.current, { opacity: 1 }, { duration: 1 });
+    };
 
     const handlePokemonClick = (pokemon) => {
         console.log(pokemon);
@@ -35,6 +42,7 @@ const Pokedex = () => {
     };
 
     useEffect(() => {
+        pageInAnimation();
         fetchPokemons(1, 151);
     }, []);
 
@@ -136,7 +144,7 @@ const Pokedex = () => {
 
 
     return (
-        <div className='pokedexWrapper'>
+        <div className='pokedexWrapper' ref={pageScope}>
             <button className='backPageBtn'onClick={navigateHome}>← Back to Landing Page</button>
 
             <img className='logoPokemon' src={logo}></img>

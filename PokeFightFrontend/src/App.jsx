@@ -53,7 +53,7 @@ function App() {
         <Route path="/home" element={<LandingPage />} />
         <Route path="/pokemon/" element={<Pokedex />} />
         <Route path="/pokemon/:id" element={<PokemonIdPage />} />
-        <Route path='/fight' element={<Fight />} />
+        <Route path='/fight/*' element={<Fight />} />
 
       </Routes>
     </BrowserRouter>

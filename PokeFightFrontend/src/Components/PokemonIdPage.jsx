@@ -14,9 +14,6 @@ const PokemonIdPage = () => {
 
   id = parseInt(id);
 
-  console.log(id);
-
-
   // A function to grab a random description from the array of flavour text entries
   const getRandomDescription = (flavorText) => {
     let randomIndex = Math.floor(Math.random() * flavorText.length);
@@ -188,23 +185,31 @@ const PokemonIdPage = () => {
     return chosenBadge;
   };
 
+  // Function to extract the Evolutions PokemonID from the Evolution Sprite URL
+  const extractDigits = (url) => {
+    const match = url.match(/(\d+)\.png$/);
+    return match ? match[1] : null;
+  };
+
   // For the Back Button
   const navigateHome = () => {
-    console.log('home');
     navigate('/pokemon');
+  };
+
+  const navigateToEvolutions = (e) => {
+    const pokemonId = extractDigits(e.target.src);
+    navigate(`/pokemon/${pokemonId}`);
   };
 
   // For the Right Navigation Arrow
   const navigateRight = () => {
     setLoading(true);
-    console.log('right');
     navigate(`/pokemon/${id + 1}`)
   };
 
   // For the Left Navigation Arrow
   const navigateLeft = () => {
     setLoading(true);
-    console.log('left');
     navigate(`/pokemon/${id - 1}`)
   };
 
@@ -402,6 +407,7 @@ const PokemonIdPage = () => {
                 <div 
                   key={index} 
                   className={pokemon.evolutionChain[evolution].isActive ? 'evolution activeSprite' : 'evolution inactiveSprite'}
+                  onClick={!pokemon.evolutionChain[evolution].isActive ? navigateToEvolutions : null}
                 >
                   <img 
                     src={pokemon.evolutionChain[evolution].sprite} 

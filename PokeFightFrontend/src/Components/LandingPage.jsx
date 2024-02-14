@@ -10,17 +10,25 @@ function LandingPage() {
   const navigate = useNavigate();
   const [topScope, animateTop] = useAnimate();
   const [bottomScope, animateBottom] = useAnimate();
+  const [pageScope, animatePage] = useAnimate();
+
+  const pageOutAnimation = () => {
+    animatePage(pageScope.current, {opacity: 0}, {duration: 0.5});
+  };
   
   const handleBuildingClick = (e) => {
     const target = e.target.alt;
+    console.log(target);
 
-    console.log('building clicked', target);
-
-    if (target === 'pokecenter') {
-      navigate('/pokemon');
-    } else {
-      navigate('/fight');
-    };
+    pageOutAnimation();
+    setTimeout(() => {
+      if (target === 'pokecenter') {
+        console.log('pokecenter clicked');
+        navigate('/pokemon');
+      } else {
+        navigate('/fight');
+      };
+    }, 500)
   };
 
   const handlePokedexClick = () => {
@@ -29,12 +37,14 @@ function LandingPage() {
   }
 
   useEffect(() => {
-    animateTop(topScope.current, {opacity: 1}, {duration: 3});
-    animateBottom(bottomScope.current, {opacity: 1}, {duration: 3});
+    pageScope.current.style.opacity = 0;
+    animatePage(pageScope.current, {opacity: 1}, {duration: 1});
+    animateTop(topScope.current, {opacity: 1}, {duration: 2});
+    animateBottom(bottomScope.current, {opacity: 1}, {duration: 2});
   }, []);
 
   return (
-    <div className="landingContainer" >
+    <div className="landingContainer" ref={pageScope} >
       <div className="landingTop" ref={topScope}>
         {Object.values(buildingSprites).map((building) => {
           return (

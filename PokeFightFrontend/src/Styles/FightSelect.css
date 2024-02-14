@@ -1,0 +1,344 @@
+.fighterSelectContainer {
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem 0 0 0;
+    background-color: rgb(238, 238, 238);
+    position: absolute;
+    z-index: 1;
+}
+
+.pokemonLoading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #515158;
+    font-family: 'pkmn_rbygscregular', serif;
+}
+
+.fighterSelectHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 10%;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0rem 0rem 0rem 0rem;
+    background-color: rgb(255, 0, 0);
+    border-bottom: 6px solid rgb(161, 0, 0);
+}
+
+.fighterSelectHeader h1 {
+    padding: 0;
+    margin: 0;
+    padding: 2rem;
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 1.6rem;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px #777676;
+}
+
+.fighterSelectMiddle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 60%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.fighterSelectMiddleLeft {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 70%;
+    box-sizing: border-box;
+    background-color: rgb(255, 255, 255);
+}
+
+.pokemonList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    /* border-width: 0.6rem 0.6rem 0.6rem 0.6rem; */
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(136, 138, 164) rgb(229, 229, 229);
+    padding-top: 1rem;
+}   
+
+.pokemonList img {
+    width: auto;
+    height: 100px;
+    object-fit: contain;
+    margin: 0.5rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.pokemonListItem {
+    position: relative;
+    transition: 0.2s;
+}
+
+.pokemonListItem:hover {
+    transform: scale(1.1);
+    transition: 0.2s;
+}
+
+.pokemonListItem:hover::before {
+    content: "▲";
+    bottom: 0;
+    left: 50px;
+    color: rgb(34, 34, 34);
+    font-size: 1rem;
+    position: absolute;
+    z-index: 1;
+}
+
+.fighterSelectMiddleRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 30%;
+    box-sizing: border-box;
+    background-color: rgb(174, 190, 204);
+    padding: 0.8rem;
+}
+
+.pokemonViewSprite {
+    width: calc(100% - 4px);
+    height: 52%;
+    background-color: rgb(212, 207, 198);
+    background-image: url('../Images/pokedexBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    border: 10px solid #CDCDCD;
+    box-shadow: 0 0 1px 4px #686767;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.pokemonViewSprite img {
+    height: 150px;
+    width: auto;
+    margin: 0.5rem;
+    object-fit: contain;
+    transform: translateY(0.5rem);
+}
+
+.pokemonViewSprite h2 {
+    color: rgb(52, 52, 52);
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.pokemonStats {
+    margin-top: 0.6rem;
+    width: 100%;
+}
+
+
+.fighterSelectFooter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 30%;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 0.6rem;
+    padding: 0.6rem;
+    border-top: 6px solid rgb(93, 93, 93);
+}
+
+.fighterSelectFooterLeft {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 80%;
+    box-sizing: border-box;
+}
+
+.searchSpriteWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 30%;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0.4rem;
+}
+
+.searchSpriteWrapper input {
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 0.8rem;
+    color: #515158;
+    background-color: #f7f7f7;
+    border: 4px solid #737373;
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.4rem;
+    width:  50%;
+}
+
+.regionDropdown {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.regionDropdown h3 {
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+    color: #515158;
+    padding-right: 1rem;
+    padding-left: 0.4rem;
+}
+
+.regionDropdown select {
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 1rem;
+    color: #515158;
+    background-color: #EBEBEB;
+    border: 4px solid #737373;
+    border-radius: 0.5rem;
+    padding: 0.2rem 0.4rem;
+}
+
+.fightInstructionsWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    align-items: center;
+    height: 70%;
+    width: calc(100% - 6px);
+    box-sizing: border-box;
+    border: 6px solid rgb(177, 177, 177);
+    background-color: #606067;
+    border-radius: 0.5rem;
+    padding: 0rem;
+    border: 2px solid #EFD76F;
+    box-shadow: 0 0 0 4px #606067; 
+    padding-right: 3rem;
+    z-index: 0;
+    margin: 4px;
+}
+
+.fightInstructionsWrapper h3 {
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+}
+
+.fightInstruction {
+    border: 4px solid rgb(84, 84, 84);
+    box-sizing: border-box;
+    background-color: rgb(201, 201, 201);
+    color: #555555;
+    text-shadow: 2px 2px #b9b8b6;
+    padding: 0.4rem 2rem 0.4rem 1.4rem;
+    background-color: #EBEBEB;
+    color: #515158;
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 1rem;
+    text-shadow: 1px 1px #A5A5AB;
+    height: 100%;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.fighterSelectFooterRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 100%;
+    width: 20%;
+    box-sizing: border-box;
+    background-color: rgb(241, 241, 241);
+    margin-left: 0.4rem;
+}
+
+.startBtn {
+    width: 90%;
+    height: 100%;
+    background-color: #c3c3c3;
+    border: 4px solid #919191;
+    border-radius: 0.5rem;
+    font-family: 'pkmn_rbygscregular', serif;
+    font-size: 1rem;
+    color: #515158;
+    text-shadow: 1px 1px #A5A5AB;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 0 4px #686869;
+    margin: 4px;
+}
+
+.startBtn:hover {
+    background-color: #b9b8b6;
+    border: 4px solid #919191;
+    box-shadow: 1px 1px 0 4px #686869;
+    transition: 0.2s;
+}
+
+.startBtn:active {
+    background-color: #a5a5ab;
+    border: 4px solid #919191;
+    transition: 0.2s;
+}
+
+.animationBlocks {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+}
+
+.animationBlockSingle {
+    height: 10%;
+    width: 0%;
+}
+
+.block1, .block3, .block5, .block7, .block9 {
+    background-color: #000000;
+    align-self: flex-end;
+    
+}
+
+.block2, .block4, .block6, .block8, .block10 {
+    background-color: #000000;
+}

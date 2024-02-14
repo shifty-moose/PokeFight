@@ -18,8 +18,7 @@ const EntryPage = ({toggleAudio}) => {
         animateTop(topScope.current, { y: -window.innerHeight}, {duration: 1.5});
         animateMiddle(middleScope.current, { y: window.innerHeight}, {duration: 1.5, delay: 0});
         animateBottom(bottomScope.current, { y: window.innerHeight}, {duration: 1.5, delay: 0});
-        animateBackground(backgroundScope.current, { opacity: 0}, {duration: 2, delay: 0.2});
-        setTimeout(() => navigate('/home'), 2000);
+        setTimeout(() => navigate('/home'), 1500);
     };
 
     return (

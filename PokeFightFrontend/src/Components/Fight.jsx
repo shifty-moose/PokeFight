@@ -1,22 +1,28 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {useAnimate} from 'framer-motion';
+import {useNavigate} from 'react-router-dom';
 import "../Styles/Fight.css";
+import FightDisplay from './FightDisplay.jsx';
+import FightSelect from './FightSelect.jsx';
 
 const Fight = () => {
 
     const [spriteOne, animateSpriteOne] = useAnimate();
     const [spriteTwo, animateSpriteTwo] = useAnimate();
+    const [selectScreen, animateSelectScreen] = useAnimate();
 
-    const pokemon1 = {
-        name: 'PIKACHU',
-        type: 'Electric',
-        hp: 100,
-        attack: 55,
-        defense: 40,
-        spAttack: 50,
-        spDefense: 50,
-        speed: 90,
-        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/25.png'
+    const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+    const navigate = useNavigate();
+
+    const [pageScope, animatePage] = useAnimate();
+
+    const pageOutAnimation = () => {
+        animatePage(pageScope.current, {opacity: 0}, {duration: 0.5});
+      };
+
+    const pageInAnimation = () => {
+        animatePage(pageScope.current, {opacity: 1}, {duration: 1});
     };
 
     const pokemon2 = {
@@ -41,72 +47,31 @@ const Fight = () => {
         setTimeout(() => animateSpriteTwo(spriteTwo.current, {x: 0, y: 0, transition: {duration: 0.3}}), 300);
     }
 
+    const navigateHome = () => {
+        pageOutAnimation();
+        setTimeout(() => navigate('/home'), 500);
+      };
+
+    useEffect(() => {
+        pageInAnimation();
+      }, []);
+
 
   return (
-    <div className='fightWrapper'>
+    <div className='fightWrapper' ref={pageScope}>
+        <button className='backPageBtn'onClick={navigateHome}>← Back to Homepage</button>
+
+        <div className='fightContainerBorder'>
         <div className="fightContainer">
-            <div className="fightTopRow">
-                <div className="fightTopRowLeft">
-                    <div className='topPokemonStatScreen'>
-                        <div className='statsDiv topLeftStatsDiv'>
-                            <h3>{pokemon2.name}</h3>
-                            <div className='hpBarContainer'>
-                                <h5>HP:</h5>
-                                <div className='hpBar'>
-                                    <div className='hpBarFill' style={{width: `${90}%`}}></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="fightTopRowRight">
-                    <div className='pokemonSprite topPokemonSprite'>
-                        <img src={pokemon2.sprite} alt="Bulbasaur" ref={spriteTwo}/>
-                    </div>
-                </div>
-            </div>
-
-            <div className="fightBottomRow">
-                <div className="fightBottomRowLeft">
-                    <div className='pokemonSprite bottomPokemonSprite'>
-                        <img src={pokemon1.sprite} alt="Pikachu" ref={spriteOne}/>
-                    </div>
-                </div>
-
-                <div className="fightBottomRowRight">
-                    <div className='bottomPokemonStatScreen'>
-                        <div className='statsDiv bottomRightStatsDiv'>
-                            <h3>{pokemon1.name}</h3>
-                            <div className='hpBarContainer'>
-                                <h5>HP:</h5>
-                            <div className='hpBar'>
-                                <div className='hpBarFill' style={{width: `${55}%`}}></div>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="fightStats">
-                <div className="fightStatsLeft">
-                    <div className="attackMoves">
-                        <div className="attackMoveContainer">
-                        <h3 onClick={handleClick}>Attack</h3>
-                        <h3 onClick={handleClick2}>Sp. Attack</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="fightStatsRight">
-                    <div className="defenseMoves">
-                        <h3>Defense</h3>
-                        <h3>Sp. Defense</h3>
-                    </div>
-                </div>
-            </div>
-
+            {!selectedPokemon ? (
+                <FightSelect selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} selectScreen={selectScreen} animateSelectScreen={animateSelectScreen} />
+            ) : (
+                <FightDisplay pokemon1={selectedPokemon} pokemon2={pokemon2} spriteOne={spriteOne} spriteTwo={spriteTwo} handleClick={handleClick} handleClick2={handleClick2} />
+            )}
+        </div>
+        <div className="gameBoyLogo"> 
+            <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/11a10a01-ac23-4fea-ad5a-b51f53084159/d6qt2ly-5c06d9cc-e979-4d32-bb59-2332cc124348.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzExYTEwYTAxLWFjMjMtNGZlYS1hZDVhLWI1MWY1MzA4NDE1OVwvZDZxdDJseS01YzA2ZDljYy1lOTc5LTRkMzItYmI1OS0yMzMyY2MxMjQzNDgucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.4-4SFVD9u86gKytA4WiCHt7D5htmRzkSR2biBbzrHPY" alt="gameboy logo" />
+        </div>
         </div>
     </div>
   )

@@ -26,6 +26,7 @@
     box-shadow: 1px 1px 0 2px #323030;
     background-color: #d3d3d3;
     cursor: pointer;
+    z-index: 5;
 }
 
 .backPageBtn:hover {
@@ -238,6 +239,7 @@
     text-align: left;
     color: rgb(234, 234, 234);
     text-shadow: 2px 2px #838383;
+    box-sizing: border-box;
 }
 
 .labelOdd {
@@ -252,6 +254,8 @@
     text-align: right;
     color: #424242;
     text-shadow: 2px 2px #b2b2b2;
+    min-width: 30px;
+    max-width: 30px;
 }
 
 .valueOdd {

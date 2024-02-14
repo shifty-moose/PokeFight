@@ -7,6 +7,7 @@
   font-family: "pkmn_rbygscregular", serif;
   font-size: 0.8rem;
   min-height: 100vh;
+  opacity: 0;
 }
 
 .logoPokemon {
