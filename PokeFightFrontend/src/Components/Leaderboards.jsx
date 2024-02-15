@@ -2,6 +2,7 @@ import React from 'react';
 import '../Styles/Leaderboards.css';
 
 const Leaderboards = () => {
+  
   return (
     <div className='leaderboardContainer'>
       <div className='leaderboardWrapper'>

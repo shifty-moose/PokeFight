@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import "../Styles/Fight.css";
 import FightDisplay from './FightDisplay.jsx';
 import FightSelect from './FightSelect.jsx';
+import FightGame from './FightGame.jsx';
 
 const Fight = () => {
 
@@ -68,7 +69,7 @@ const Fight = () => {
                 <FightSelect selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} selectScreen={selectScreen} animateSelectScreen={animateSelectScreen} />
             ) : (
                 console.log(selectedPokemon),
-                <FightDisplay pokemon1={selectedPokemon} pokemon2={pokemon2} spriteOne={spriteOne} spriteTwo={spriteTwo} handleClick={handleClick} handleClick2={handleClick2} />
+                <FightGame pokemon1={selectedPokemon} pokemon2={pokemon2} spriteOne={spriteOne} spriteTwo={spriteTwo} handleClick={handleClick} handleClick2={handleClick2} />
             )}
         </div>
         <div className="gameBoyLogo"> 
