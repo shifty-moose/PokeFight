@@ -32,7 +32,7 @@ const FightSelect = ({selectedPokemon, setSelectedPokemon, selectScreen, animate
 
     const navigate = useNavigate();
 
-    const startAudio = new Audio('https://vgmsite.com/soundtracks/pokemon-red-blue-yellow/lnzqzqjv/107%20-%20battle%20%28vs%20wild%20pokemon%29.mp3');
+    const fightAudio = new Audio('https://vgmsite.com/soundtracks/pokemon-yellow-gb/eknsoiss/16_Battle%20%28VS%20Trainer%29.mp3');
 
     const animateBlocks = () => {
         blocksRef.current.style.zIndex = '1'; 
@@ -76,14 +76,13 @@ const FightSelect = ({selectedPokemon, setSelectedPokemon, selectScreen, animate
     };
 
     const handleStartGame = () => {
-
         if (!selectedPokemonSprite) {
             return;
         }
-
+        // fightAudio.play();
         animateSelectScreen(selectScreen.current, {opacity: 0}, {duration: 1});
         animateBlocks();
-        setTimeout(() => setSelectedPokemon(tempSelection), 1500);
+        setTimeout(() => setSelectedPokemon(tempSelection), 1200);
     };
 
     const handleChange = (event) => {

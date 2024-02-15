@@ -17,6 +17,8 @@ const Fight = () => {
 
     const [pageScope, animatePage] = useAnimate();
 
+    const fightAudio = new Audio('https://vgmsite.com/soundtracks/pokemon-yellow-gb/eknsoiss/16_Battle%20%28VS%20Trainer%29.mp3');
+
     const pageOutAnimation = () => {
         animatePage(pageScope.current, {opacity: 0}, {duration: 0.5});
       };
@@ -56,7 +58,6 @@ const Fight = () => {
         pageInAnimation();
       }, []);
 
-
   return (
     <div className='fightWrapper' ref={pageScope}>
         <button className='backPageBtn'onClick={navigateHome}>← Back to Homepage</button>
@@ -66,6 +67,7 @@ const Fight = () => {
             {!selectedPokemon ? (
                 <FightSelect selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} selectScreen={selectScreen} animateSelectScreen={animateSelectScreen} />
             ) : (
+                console.log(selectedPokemon),
                 <FightDisplay pokemon1={selectedPokemon} pokemon2={pokemon2} spriteOne={spriteOne} spriteTwo={spriteTwo} handleClick={handleClick} handleClick2={handleClick2} />
             )}
         </div>

@@ -2,6 +2,7 @@ import React from "react";
 
 const FightDisplay = ({pokemon1, pokemon2, spriteOne, spriteTwo, handleClick, handleClick2}) => {
   console.log(pokemon1);
+  
   return (
     <div className='fightDisplayContainer'>
       <div className="fightTopRow">
