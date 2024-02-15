@@ -5,7 +5,8 @@ import "../Styles/FightGame.css";
 import { useEffect } from 'react';
 import pokemonAPI from '../../pokemonAPI';
 
-const FightGame = () => {
+const FightGame = ({ pokemon }) => {
+
 
     const [spriteOne, animateSpriteOne] = useAnimate();
     const [spriteTwo, animateSpriteTwo] = useAnimate();
@@ -21,8 +22,6 @@ const FightGame = () => {
     const [showForm, setShowForm] = useState(false);
     const { getPokemon, addScore, addHighscore } = pokemonAPI();
     const [highscore, setHighScore] = useState(0)
-
-    console.log('running game');
 
     const getRandomPokemonId = () => {
         return Math.floor(Math.random() * 721) + 1;
@@ -46,9 +45,6 @@ const FightGame = () => {
             setLoading(false);
         }
     };
-    const [initialPokemon1HP, setInitialPokemon1HP] = useState();
-
-
 
     const [pokemon1, setPokemon1] = useState({
         name: 'PIKACHU',
@@ -67,7 +63,12 @@ const FightGame = () => {
 
     useEffect(() => {
         fetchPokemon();
-        setInitialPokemon1HP(pokemon1.hp);
+
+        const { name, sprites: { back_default: sprite }, stats } = pokemon;
+        const { base_stat: hp } = stats.find(stat => stat.stat.name === 'hp');
+        const { base_stat: attack } = stats.find(stat => stat.stat.name === 'attack');
+        const { base_stat: defense } = stats.find(stat => stat.stat.name === 'defense');
+        setPokemon1({ sprite, name, hp, attack, defense });
 
 
     }, [])
@@ -96,11 +97,14 @@ const FightGame = () => {
         const damageMultiplier1 = isCriticalHit() ? 1.5 : 1;
         const dodge1 = isDodged() ? 0 : 1;
 
+        console.log(pokemon1)
 
         const firstAttacker = pokemon1;
         const secondAttacker = pokemon2;
 
-        const damage = Math.round(20 * (firstAttacker.attack / secondAttacker.defense) * damageMultiplier1 * dodge1);
+        console.log(firstAttacker, "this")
+
+        const damage = Math.round(15 * (firstAttacker.attack / secondAttacker.defense) * damageMultiplier1 * dodge1);
         setTotalDamage(prevTotalDamage => prevTotalDamage + damage);
         const remainingHP2 = Math.max(secondAttacker.hp - damage, 0);
 
@@ -114,7 +118,7 @@ const FightGame = () => {
         if (damage > 1) {
             setPokemon2HPWidth(remainingHPPercentage2);
         }
-        setAttackMessage(`${firstAttacker.name} USED TACKLE`)
+        setAttackMessage(`${firstAttacker.name.toUpperCase()} USED TACKLE`)
         setTimeout(() => {
             if (damageMultiplier1 > 1.1 && damage > 0) {
                 setAttackMessage("It was critical")
@@ -157,7 +161,7 @@ const FightGame = () => {
             const damageMultiplier2 = isCriticalHit() ? 1.5 : 1;
             const dodge2 = isDodged() ? 0 : 1;
             // Calculate damage I need to adjust it still
-            const damage2 = Math.round(20 * (pokemon2.attack / firstAttacker.defense) * damageMultiplier2 * dodge2);
+            const damage2 = Math.round(20 * (secondAttacker.attack / firstAttacker.defense) * damageMultiplier2 * dodge2);
             const remainingHP1 = Math.max(firstAttacker.hp - damage2, 0);
             const remainingHPPercentage1 = Math.max(0, Math.min(100, (remainingHP1 / firstAttacker.hp) * 100));
 
@@ -165,21 +169,21 @@ const FightGame = () => {
             if (damage2 > 1) {
                 setPokemon1HPWidth(remainingHPPercentage1);
             }
-            console.log(pokemon2.name)
-            setAttackMessage(`${pokemon2.name} USED TACKLE`)
+
+            setAttackMessage(`${pokemon2.name.toUpperCase()} USED TACKLE`)
             spirit2Attack();
             setTimeout(() => {
                 if (damageMultiplier2 > 1.1 & damage2 > 0) {
                     setAttackMessage("It was critical")
                 } else if (damage2 == 0) {
-                    setAttackMessage(`${secondAttacker.name} missed the attack`)
+                    setAttackMessage(`${secondAttacker.name.toUpperCase()} missed the attack`)
                 }
             }, 1000);
 
             setTimeout(() => {
                 if (remainingHP1 === 0) {
                     setHighScore(totalDamage * wins)
-                    setAttackMessage(`${firstAttacker.name} is unable to battle!You lost`)
+                    setAttackMessage(`${firstAttacker.name.toUpperCase()} is unable to battle!You lost`)
                     setTimeout(() => {
                         setShowForm(true);
                     }, 2000);
@@ -239,76 +243,76 @@ const FightGame = () => {
 
     return (
         <div className='fightScreenDiv'>
-                <div className="fightTopRow">
-                    <div className="fightTopRowLeft">
-                        <div className='topPokemonStatScreen'>
-                            {pkm2 && (
-                                <div className='statsDiv topLeftStatsDiv'>
+            <div className="fightTopRow">
+                <div className="fightTopRowLeft">
+                    <div className='topPokemonStatScreen'>
+                        {pkm2 && (
+                            <div className='statsDiv topLeftStatsDiv'>
 
-                                    <h3>{pokemon2.name.toUpperCase()}</h3>
-                                    <div className='hpBarContainer'>
-                                        <h5>HP:</h5>
-                                        <div className='hpBar'>
-                                            <div className='hpBarFill' style={{ width: `${pokemon2HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
-                                        </div>
+                                <h3>{pokemon2.name.toUpperCase()}</h3>
+                                <div className='hpBarContainer'>
+                                    <h5>HP:</h5>
+                                    <div className='hpBar'>
+                                        <div className='hpBarFill' style={{ width: `${pokemon2HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
                                     </div>
                                 </div>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="fightTopRowRight">
-                        <div className='pokemonSprite topPokemonSprite'>
-                            {pkm2 && <img src={pokemon2.sprite} alt={pokemon2.name} ref={spriteTwo} />}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="fightBottomRow">
-                    <div className="fightBottomRowLeft">
-                        <div className='pokemonSprite bottomPokemonSprite'>
-                            {pokemon1.hp > 0 &&
-                                <img src={pokemon1.sprite} alt="Pikachu" ref={spriteOne} />}
-                        </div>
-                    </div>
-
-                    <div className="fightBottomRowRight">
-                        <div className='bottomPokemonStatScreen'>
-                            {pokemon1.hp > 0 && (
-                                <div className='statsDiv bottomRightStatsDiv'>
-                                    <h3>{pokemon1.name}</h3>
-                                    <div className='hpBarContainer'>
-                                        <h5>HP:</h5>
-                                        <div className='hpBar'>
-                                            <div className='hpBarFill' style={{ width: `${pokemon1HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
-                                            <h5>{`${initialPokemon1HP} / ${pokemon1.hp}`}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="fightStats">
-                    <div className="fightStatsLeft">
-                        <div className="attackMoves">
-                            <div className="attackMoveContainer">
-                                {attackMessage && <p>{attackMessage}</p>}
-
                             </div>
-                        </div>
+                        )}
                     </div>
+                </div>
 
-                    <div className="fightStatsRight">
-                        <div className="defenseMoves">
-                            {!isAttacking && <h3 onClick={fight}>TACKLE</h3>}
+                <div className="fightTopRowRight">
+                    <div className='pokemonSprite topPokemonSprite'>
+                        {pkm2 && <img src={pokemon2.sprite} alt={pokemon2.name} ref={spriteTwo} />}
+                    </div>
+                </div>
+            </div>
+
+            <div className="fightBottomRow">
+                <div className="fightBottomRowLeft">
+                    <div className='pokemonSprite bottomPokemonSprite'>
+                        {pokemon1.hp > 0 &&
+                            <img src={pokemon1.sprite} alt={pokemon1.name} ref={spriteOne} />}
+                    </div>
+                </div>
+
+                <div className="fightBottomRowRight">
+                    <div className='bottomPokemonStatScreen'>
+                        {pokemon1.hp > 0 && (
+                            <div className='statsDiv bottomRightStatsDiv'>
+                                <h3>{pokemon1.name.toUpperCase()}</h3>
+                                <div className='hpBarContainer'>
+                                    <h5>HP:</h5>
+                                    <div className='hpBar'>
+                                        <div className='hpBarFill' style={{ width: `${pokemon1HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
+                                        <h5>{`${pokemon1.hp}`}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            <div className="fightStats">
+                <div className="fightStatsLeft">
+                    <div className="attackMoves">
+                        <div className="attackMoveContainer">
+                            {attackMessage && <p>{attackMessage}</p>}
+
                         </div>
                     </div>
                 </div>
 
-                </div>    
-            )
+                <div className="fightStatsRight">
+                    <div className="defenseMoves">
+                        {!isAttacking && <h3 onClick={fight}>TACKLE</h3>}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    )
 }
 
 export default FightGame;
