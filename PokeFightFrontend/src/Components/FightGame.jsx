@@ -85,12 +85,8 @@ const FightGame = ({ pokemon }) => {
         const damageMultiplier1 = isCriticalHit() ? 1.5 : 1;
         const dodge1 = isDodged() ? 0 : 1;
 
-        console.log(pokemon1)
-
         const firstAttacker = pokemon1;
         const secondAttacker = pokemon2;
-
-        console.log(firstAttacker, "this")
 
         const damage = Math.round(15 * (firstAttacker.attack / secondAttacker.defense) * damageMultiplier1 * dodge1);
         setTotalDamage(prevTotalDamage => prevTotalDamage + damage);
