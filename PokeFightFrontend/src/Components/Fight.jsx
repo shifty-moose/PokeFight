@@ -7,8 +7,6 @@ import pokemonAPI from '../../pokemonAPI';
 
 const Fight = () => {
 
-
-
     const [spriteOne, animateSpriteOne] = useAnimate();
     const [spriteTwo, animateSpriteTwo] = useAnimate();
     const [attackMessage, setAttackMessage] = useState("");
@@ -18,10 +16,13 @@ const Fight = () => {
     const [pokemon1HPWidth, setPokemon1HPWidth] = useState(100);
     const [pokemon2HPWidth, setPokemon2HPWidth] = useState(100);
     const [totalDamage, setTotalDamage] = useState(1);
-    const [wins, setWins] = useState(1);
+    const [wins, setWins] = useState(10);
+    const [name, setName] = useState('');
+    const [showForm, setShowForm] = useState(false);
+    const { getPokemon, addScore, addHighscore } = pokemonAPI();
+    const [highscore, setHighScore] = useState(0)
 
 
-    const { getPokemon, addScore } = pokemonAPI();
 
     const getRandomPokemonId = () => {
         return Math.floor(Math.random() * 721) + 1;
@@ -31,9 +32,12 @@ const Fight = () => {
 
 
     const fetchPokemon = async () => {
+
         try {
-            setLoading(true);
+
             const { name: { english: name }, sprites: { front_default: sprite }, base: { Attack: attack }, base: { HP: hp }, base: { Defense: defense }, base: { Speed: speed } } = await getPokemon(id);
+            setPokemon2({ name, speed, sprite, attack, defense, hp });
+            setPokemon2HPWidth(100)
             setPokemon2({ name, speed, sprite, attack, defense, hp });
 
         } catch (error) {
@@ -44,17 +48,13 @@ const Fight = () => {
     };
     const [initialPokemon1HP, setInitialPokemon1HP] = useState();
 
-    useEffect(() => {
-        fetchPokemon();
-        setInitialPokemon1HP(pokemon1.hp);
 
-    }, [])
 
     const [pokemon1, setPokemon1] = useState({
         name: 'PIKACHU',
         type: 'Electric',
-        hp: 1110,
-        attack: 155,
+        hp: 1111,
+        attack: 11115,
         defense: 40,
         spAttack: 50,
         spDefense: 50,
@@ -64,8 +64,13 @@ const Fight = () => {
 
     const [pokemon2, setPokemon2] = useState({});
 
-    ;
 
+    useEffect(() => {
+        fetchPokemon();
+        setInitialPokemon1HP(pokemon1.hp);
+
+
+    }, [])
 
     const spirit1Attack = () => {
         animateSpriteOne(spriteOne.current, { x: 80, y: -30, transition: { duration: 0.3 } });
@@ -81,7 +86,7 @@ const Fight = () => {
         animateSpriteTwo(spriteTwo.current, { x: 0, y: 60, transition: { duration: 0.5 } });
     }
 
-    const dodgeProbability = 0.5;
+    const dodgeProbability = 0.1;
     const criticalHitProbability = 0.1;
 
     const isDodged = () => Math.random() < dodgeProbability;
@@ -129,16 +134,22 @@ const Fight = () => {
 
 
 
-                setTimeout(async () => {
+                setTimeout(() => {
 
                     setpkm2(false);
-                    setTimeout(() => {
+                    setTimeout(async () => {
+                        console.log(pokemon2.name, "before")
                         setAttackMessage(`Oppenent is about the send new pokemon out.`)
-                    }, 2500);
-                }, 100);
-            }, 2500);
+                        await fetchPokemon();
+                        console.log(pokemon2.name, "after")
+                        setpkm2(true);
 
-            return 0;
+
+                    }, 1500);
+                }, 500);
+            }, 2000);
+
+
         }
 
 
@@ -146,7 +157,7 @@ const Fight = () => {
             const damageMultiplier2 = isCriticalHit() ? 1.5 : 1;
             const dodge2 = isDodged() ? 0 : 1;
             // Calculate damage I need to adjust it still
-            const damage2 = Math.round(20 * (secondAttacker.attack / firstAttacker.defense) * damageMultiplier2 * dodge2);
+            const damage2 = Math.round(20 * (pokemon2.attack / firstAttacker.defense) * damageMultiplier2 * dodge2);
             const remainingHP1 = Math.max(firstAttacker.hp - damage2, 0);
             const remainingHPPercentage1 = Math.max(0, Math.min(100, (remainingHP1 / firstAttacker.hp) * 100));
 
@@ -154,7 +165,8 @@ const Fight = () => {
             if (damage2 > 1) {
                 setPokemon1HPWidth(remainingHPPercentage1);
             }
-            setAttackMessage(`${secondAttacker.name} USED TACKLE`)
+            console.log(pokemon2.name)
+            setAttackMessage(`${pokemon2.name} USED TACKLE`)
             spirit2Attack();
             setTimeout(() => {
                 if (damageMultiplier2 > 1.1 & damage2 > 0) {
@@ -166,7 +178,11 @@ const Fight = () => {
 
             setTimeout(() => {
                 if (remainingHP1 === 0) {
-                    setAttackMessage(`${firstAttacker.name} is unable to battle! You lost  100 pokecoins`)
+                    setHighScore(totalDamage * wins)
+                    setAttackMessage(`${firstAttacker.name} is unable to battle!You lost`)
+                    setTimeout(() => {
+                        setShowForm(true);
+                    }, 2000);
                     return 0;
                 }
 
@@ -177,15 +193,48 @@ const Fight = () => {
                 }, 1000);
             }, 2000);
 
-        }, 3000);
-
-
-
+        }, 6000);
 
     }
 
+    const handleFormSubmit = async (e) => {
+        e.preventDefault(); // Prevent the default form submission
+        try {
+            const data = {
+                name: name,
+                pokemon: pokemon1.name,
+                damage: totalDamage,
+                highscore: totalDamage * wins,
+                date: new Date()
+            };
+            console.log(data)
+            const response = await addHighscore(data);
+            console.log('Server response:', response);
+            // Handle success, navigate to home
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle error
+        }
+    };
+
     if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (showForm) {
+        return (
+            <form onSubmit={handleFormSubmit}>
+                <label>
+                    Enter your name:
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </label>
+                <button type="submit">Submit</button>
+            </form>
+        );
     }
 
     return (

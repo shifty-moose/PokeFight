@@ -35,9 +35,9 @@ const pokemonAPI = () => {
         }
     }
 
-    const addScore = async (pokeData) => {
+
+    const addHighscore = async (pokeData) => {
         try {
-            console.log("Adding user:", pokeData);
             const res = await fetch("http://localhost:3000/", {
                 method: "POST",
                 headers: {
@@ -56,6 +56,6 @@ const pokemonAPI = () => {
 
 
 
-    return { getPokemons, getPokemon, addScore };
+    return { getPokemons, getPokemon, addHighscore };
 }
 export default pokemonAPI;
