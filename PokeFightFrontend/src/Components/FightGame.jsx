@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useAnimate } from 'framer-motion';
-
 import "../Styles/FightGame.css";
 import { useEffect } from 'react';
 import pokemonAPI from '../../pokemonAPI';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const FightGame = ({ pokemon }) => {
 
-
+    const navigate = useNavigate();
     const [spriteOne, animateSpriteOne] = useAnimate();
     const [spriteTwo, animateSpriteTwo] = useAnimate();
     const [attackMessage, setAttackMessage] = useState("");
@@ -21,7 +23,7 @@ const FightGame = ({ pokemon }) => {
     const [name, setName] = useState('');
     const [showForm, setShowForm] = useState(false);
     const { getPokemon, addScore, addHighscore } = pokemonAPI();
-    const [highscore, setHighScore] = useState(0)
+    const [highscore, setHighScore] = useState(1)
 
     const getRandomPokemonId = () => {
         return Math.floor(Math.random() * 721) + 1;
@@ -46,20 +48,10 @@ const FightGame = ({ pokemon }) => {
         }
     };
 
-    const [pokemon1, setPokemon1] = useState({
-        name: 'PIKACHU',
-        type: 'Electric',
-        hp: 1111,
-        attack: 11115,
-        defense: 40,
-        spAttack: 50,
-        spDefense: 50,
-        speed: 100,
-        sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/25.png'
-    });
+    const [pokemon1, setPokemon1] = useState({});
 
     const [pokemon2, setPokemon2] = useState({});
-
+    const [one, set1] = useState();
 
     useEffect(() => {
         fetchPokemon();
@@ -70,8 +62,8 @@ const FightGame = ({ pokemon }) => {
         const { base_stat: defense } = stats.find(stat => stat.stat.name === 'defense');
         setPokemon1({ sprite, name, hp, attack, defense });
 
-
     }, [])
+
 
     const spirit1Attack = () => {
         animateSpriteOne(spriteOne.current, { x: 80, y: -30, transition: { duration: 0.3 } });
@@ -161,7 +153,7 @@ const FightGame = ({ pokemon }) => {
             // Calculate damage I need to adjust it still
             const damage2 = Math.round(20 * (secondAttacker.attack / firstAttacker.defense) * damageMultiplier2 * dodge2);
             const remainingHP1 = Math.max(firstAttacker.hp - damage2, 0);
-            const remainingHPPercentage1 = Math.max(0, Math.min(100, (remainingHP1 / firstAttacker.hp) * 100));
+            const remainingHPPercentage1 = Math.max(0, Math.min(100, (remainingHP1 / pokemon1.hp) * 100));
 
             setPokemon1({ ...firstAttacker, hp: remainingHP1 });
             if (damage2 > 1) {
@@ -209,10 +201,10 @@ const FightGame = ({ pokemon }) => {
                 highscore: totalDamage * wins,
                 date: new Date()
             };
-            console.log(data)
             const response = await addHighscore(data);
             console.log('Server response:', response);
-            // Handle success, navigate to home
+            navigate('/leaderboards');
+
         } catch (error) {
             console.error('Error:', error);
             // Handle error
@@ -227,7 +219,7 @@ const FightGame = ({ pokemon }) => {
         return (
             <form onSubmit={handleFormSubmit}>
                 <label>
-                    Enter your name:
+                    Enter your name:<br></br>
                     <input
                         type="text"
                         value={name}
@@ -283,7 +275,7 @@ const FightGame = ({ pokemon }) => {
                                     <h5>HP:</h5>
                                     <div className='hpBar'>
                                         <div className='hpBarFill' style={{ width: `${pokemon1HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
-                                        <h5>{`${pokemon1.hp}`}</h5>
+                                        <h5>{`${one}`}</h5>
                                     </div>
                                 </div>
                             </div>
