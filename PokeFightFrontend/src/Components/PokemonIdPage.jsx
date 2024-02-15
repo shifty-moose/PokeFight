@@ -14,6 +14,12 @@ const PokemonIdPage = () => {
 
   id = parseInt(id);
 
+  const [pageScope, animatePage] = useAnimate();
+
+  const pageInAnimation = () => {
+    animatePage(pageScope.current, { opacity: 1 }, { duration: 0.3 });
+  };
+
   // A function to grab a random description from the array of flavour text entries
   const getRandomDescription = (flavorText) => {
     let randomIndex = Math.floor(Math.random() * flavorText.length);
@@ -198,6 +204,8 @@ const PokemonIdPage = () => {
 
   const navigateToEvolutions = (e) => {
     const pokemonId = extractDigits(e.target.src);
+    console.log(pokemonId);
+    setLoading(true);
     navigate(`/pokemon/${pokemonId}`);
   };
 
@@ -212,6 +220,7 @@ const PokemonIdPage = () => {
     setLoading(true);
     navigate(`/pokemon/${id - 1}`)
   };
+
 
   // Function to generate a random number between 1 and 200 to test. Will be removed later.
   function generateRandomNumber() {
@@ -339,13 +348,14 @@ const PokemonIdPage = () => {
 
   // This useEffect hook is used to call the getPokemon function when the component mounts
   useEffect(() => {
+    pageInAnimation();
     getPokemon();
   }, [id]);
 
   return (
     <>
     {loading ? (
-      <div className='pokemonViewWrapper'>
+      <div className='pokemonViewWrapper' ref={pageScope}>
         <div className='pokemonViewContainerLoading' ref={scope}>
           <h1>Loading...</h1>
         </div>

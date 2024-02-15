@@ -11,9 +11,7 @@ const Pokedex = () => {
     const [pokemons, setPokemons] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-
     const { getPokemons } = pokemonAPI();
-
     const navigate = useNavigate();
     const [pageScope, animatePage] = useAnimate();
 
@@ -22,9 +20,16 @@ const Pokedex = () => {
         animatePage(pageScope.current, { opacity: 1 }, { duration: 1 });
     };
 
+    const pageOutAnimation = () => {
+        animatePage(pageScope.current, { opacity: 0 }, { duration: 0.3 });
+    };
+
     const handlePokemonClick = (pokemon) => {
         console.log(pokemon);
-        navigate(`/pokemon/${pokemon}`);
+        pageOutAnimation();
+        setTimeout(() => {
+            navigate(`/pokemon/${pokemon}`);
+        }, 300);
     };
 
     const fetchPokemons = async (startId, endId) => {
