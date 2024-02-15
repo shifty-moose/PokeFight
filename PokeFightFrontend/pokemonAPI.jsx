@@ -34,11 +34,25 @@ const pokemonAPI = () => {
             console.log(error);
         }
     }
+    const addHighscore = async (pokeData) => {
+        try {
+            const res = await fetch("http://localhost:3000/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(pokeData)
+            });
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
 
 
 
-
-    return { getPokemons, getPokemon };
+    return { getPokemons, getPokemon, addHighscore };
 }
 export default pokemonAPI;
