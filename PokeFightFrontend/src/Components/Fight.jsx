@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAnimate } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import "../Styles/Fight.css";
@@ -18,7 +18,13 @@ const Fight = () => {
 
     const [pageScope, animatePage] = useAnimate();
 
+    let audioRef = useRef();
+
     const fightAudio = new Audio('https://vgmsite.com/soundtracks/pokemon-yellow-gb/eknsoiss/16_Battle%20%28VS%20Trainer%29.mp3');
+
+    audioRef = fightAudio;
+
+    console.log(audioRef.current);
 
     const pageOutAnimation = () => {
         animatePage(pageScope.current, { opacity: 0 }, { duration: 0.5 });
@@ -66,10 +72,10 @@ const Fight = () => {
             <div className='fightContainerBorder'>
                 <div className="fightContainer">
                     {!selectedPokemon ? (
-                        <FightSelect selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} selectScreen={selectScreen} animateSelectScreen={animateSelectScreen} />
+                        <FightSelect selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} selectScreen={selectScreen} animateSelectScreen={animateSelectScreen} audioRef={audioRef}/>
                     ) : (
                         console.log(selectedPokemon),
-                        <FightGame pokemon={selectedPokemon} pokemon2={pokemon2} spriteOne={spriteOne} spriteTwo={spriteTwo} handleClick={handleClick} handleClick2={handleClick2} />
+                        <FightGame pokemon={selectedPokemon} pokemon2={pokemon2} spriteOne={spriteOne} spriteTwo={spriteTwo} handleClick={handleClick} handleClick2={handleClick2} audioRef={audioRef} />
                     )}
                 </div>
                 <div className="gameBoyLogo">

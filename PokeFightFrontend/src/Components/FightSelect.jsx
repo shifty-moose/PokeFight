@@ -4,7 +4,7 @@ import {useAnimate} from 'framer-motion';
 import pokemonAPI from '../../pokemonAPI';
 import '../Styles/FightSelect.css';
 
-const FightSelect = ({selectedPokemon, setSelectedPokemon, selectScreen, animateSelectScreen}) => {
+const FightSelect = ({selectedPokemon, setSelectedPokemon, selectScreen, animateSelectScreen, audioRef}) => {
 
     const [loading, setLoading] = useState(true);
     const [pokemonList, setPokemonList] = useState([]);
@@ -16,6 +16,10 @@ const FightSelect = ({selectedPokemon, setSelectedPokemon, selectScreen, animate
     const [allBlocks, animateAllBlocks] = useAnimate();
 
     const blocksRef = useRef(null);
+
+    
+
+    console.log(audioRef.current)
 
     const [leftBlock1, animateLeftBlock1] = useAnimate();
     const [rightBlock1, animateRightBlock1] = useAnimate();
@@ -31,8 +35,6 @@ const FightSelect = ({selectedPokemon, setSelectedPokemon, selectScreen, animate
     const { getPokemons } = pokemonAPI();
 
     const navigate = useNavigate();
-
-    const fightAudio = new Audio('https://vgmsite.com/soundtracks/pokemon-yellow-gb/eknsoiss/16_Battle%20%28VS%20Trainer%29.mp3');
 
     const animateBlocks = () => {
         blocksRef.current.style.zIndex = '1'; 
@@ -79,7 +81,6 @@ const FightSelect = ({selectedPokemon, setSelectedPokemon, selectScreen, animate
         if (!selectedPokemonSprite) {
             return;
         }
-        // fightAudio.play();
         animateSelectScreen(selectScreen.current, {opacity: 0}, {duration: 1});
         animateBlocks();
         setTimeout(() => setSelectedPokemon(tempSelection), 1200);

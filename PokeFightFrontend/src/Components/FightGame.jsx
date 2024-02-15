@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAnimate } from 'framer-motion';
 import "../Styles/FightGame.css";
 import { useEffect } from 'react';
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const FightGame = ({ pokemon }) => {
+const FightGame = ({ pokemon, fightAudio }) => {
 
     const navigate = useNavigate();
     const [spriteOne, animateSpriteOne] = useAnimate();
@@ -22,12 +22,26 @@ const FightGame = ({ pokemon }) => {
     const [wins, setWins] = useState(10);
     const [name, setName] = useState('');
     const [showForm, setShowForm] = useState(false);
-    const { getPokemon, addHighscore } = pokemonAPI();
-    const [highscore, setHighScore] = useState(1)
+    const { getPokemon, addScore, addHighscore } = pokemonAPI();
+    const [highscore, setHighScore] = useState(0)
 
+
+    const blocksRef = useRef(null);
+    const [leftBlock1, animateLeftBlock1] = useAnimate();
+    const [rightBlock1, animateRightBlock1] = useAnimate();
+    const [leftBlock2, animateLeftBlock2] = useAnimate();
+    const [rightBlock2, animateRightBlock2] = useAnimate();
+    const [leftBlock3, animateLeftBlock3] = useAnimate();
+    const [rightBlock3, animateRightBlock3] = useAnimate();
+    const [leftBlock4, animateLeftBlock4] = useAnimate();
+    const [rightBlock4, animateRightBlock4] = useAnimate();
+    const [leftBlock5, animateLeftBlock5] = useAnimate();
+    const [rightBlock5, animateRightBlock5] = useAnimate();
     const getRandomPokemonId = () => {
         return Math.floor(Math.random() * 721) + 1;
     };
+
+    console.log(fightAudio)
 
     const id = getRandomPokemonId();
 
@@ -52,14 +66,17 @@ const FightGame = ({ pokemon }) => {
 
     useEffect(() => {
         fetchPokemon();
-
         const { id, name, sprites: { back_default: sprite }, stats } = pokemon;
         const { base_stat: hp } = stats.find(stat => stat.stat.name === 'hp');
         const { base_stat: attack } = stats.find(stat => stat.stat.name === 'attack');
         const { base_stat: defense } = stats.find(stat => stat.stat.name === 'defense');
         setPokemon1({ id, sprite, name, hp, attack, defense });
-
     }, [])
+
+
+    useEffect(() => {
+        animateBlocks();
+    }, [pokemon2])
 
     const spirit1Attack = () => {
         animateSpriteOne(spriteOne.current, { x: 80, y: -30, transition: { duration: 0.3 } });
@@ -91,8 +108,6 @@ const FightGame = ({ pokemon }) => {
         const damage = Math.round(15 * (firstAttacker.attack / secondAttacker.defense) * damageMultiplier1 * dodge1);
         setTotalDamage(prevTotalDamage => prevTotalDamage + damage);
         const remainingHP2 = Math.max(secondAttacker.hp - damage, 0);
-
-
         const remainingHPPercentage2 = Math.max(0, Math.min(100, (remainingHP2 / secondAttacker.hp) * 100));
         setIsAttacking(true);
 
@@ -102,6 +117,7 @@ const FightGame = ({ pokemon }) => {
             setPokemon2HPWidth(remainingHPPercentage2);
         }
         setAttackMessage(`${firstAttacker.name.toUpperCase()} USED TACKLE`)
+
         setTimeout(() => {
             if (damageMultiplier1 > 1.1 && damage > 0) {
                 setAttackMessage("It was critical")
@@ -110,7 +126,6 @@ const FightGame = ({ pokemon }) => {
             }
         }, 1000);
         spirit1Attack();
-
 
         if (remainingHP2 === 0) {
             setTimeout(() => {
@@ -162,7 +177,8 @@ const FightGame = ({ pokemon }) => {
 
             setTimeout(() => {
                 if (remainingHP1 === 0) {
-                    setHighScore(totalDamage * wins)
+                    setHighScore(totalDamage * wins);
+                    console.log(fightAudio)
                     setAttackMessage(`${firstAttacker.name.toUpperCase()} is unable to battle!You lost`)
                     setTimeout(() => {
                         setShowForm(true);
@@ -202,8 +218,27 @@ const FightGame = ({ pokemon }) => {
         }
     };
 
+    const animateBlocks = () => {
+        if (!blocksRef.current) {
+            return;
+        }
+        animateLeftBlock1(leftBlock1.current, { width: 0 }, { duration: 1.5 });
+        animateRightBlock1(rightBlock1.current, { width: 0 }, { duration: 1.5 });
+        animateLeftBlock2(leftBlock2.current, { width: 0 }, { duration: 1.5 });
+        animateRightBlock2(rightBlock2.current, { width: 0 }, { duration: 1.5 });
+        animateLeftBlock3(leftBlock3.current, { width: 0 }, { duration: 1.5 });
+        animateRightBlock3(rightBlock3.current, { width: 0 }, { duration: 1.5 });
+        animateLeftBlock4(leftBlock4.current, { width: 0 }, { duration: 1.5 });
+        animateRightBlock4(rightBlock4.current, { width: 0 }, { duration: 1.5 });
+        animateLeftBlock5(leftBlock5.current, { width: 0 }, { duration: 1.5 });
+        animateRightBlock5(rightBlock5.current, { width: 0 }, { duration: 1.5 });
+        setTimeout(() => {
+            blocksRef.current.style.display = 'none';
+        }, 1500);
+    }
+
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className='loadingDiv'></div>;
     }
 
     if (showForm) {
@@ -223,6 +258,7 @@ const FightGame = ({ pokemon }) => {
     }
 
     return (
+        <>
         <div className='fightScreenDiv'>
             <div className="fightTopRow">
                 <div className="fightTopRowLeft">
@@ -293,7 +329,21 @@ const FightGame = ({ pokemon }) => {
             </div>
 
         </div>
-    )
+
+            <div className='animationBlocks' ref={blocksRef}>
+                    <div className='singleAnimationBlockFightScreen block1' ref={leftBlock1}></div>
+                    <div className='singleAnimationBlockFightScreen block2' ref={rightBlock1}></div>
+                    <div className='singleAnimationBlockFightScreen block3' ref={leftBlock2}></div>
+                    <div className='singleAnimationBlockFightScreen block4' ref={rightBlock2}></div>
+                    <div className='singleAnimationBlockFightScreen block5' ref={leftBlock3}></div>
+                    <div className='singleAnimationBlockFightScreen block6' ref={rightBlock3}></div>
+                    <div className='singleAnimationBlockFightScreen block7' ref={leftBlock4}></div>
+                    <div className='singleAnimationBlockFightScreen block8' ref={rightBlock4}></div>
+                    <div className='singleAnimationBlockFightScreen block9' ref={leftBlock5}></div>
+                    <div className='singleAnimationBlockFightScreen block10' ref={rightBlock5}></div>
+            </div>                
+        </>
+        )
 }
 
 export default FightGame;

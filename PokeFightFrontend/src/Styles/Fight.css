@@ -21,7 +21,8 @@
     background-size: cover;
     background-repeat: repeat-x;
     background-position: center;
-    
+    position: absolute;
+    z-index: 0;
 }
 
 .gameBoyLogo {
@@ -234,6 +235,22 @@
 
 .bottomPokemonSprite {
     background-position: center 110px;
+}
+
+.defenseMoves h3 {
+    font-family: 'pkmn_rbygscregular', serif;
+    color: #515158;
+    text-shadow: 1px 1px #9393b3;
+    border: 2px solid rgb(229, 0, 0);
+    padding: 1.2rem 1.2rem;
+    border-radius: 0.5rem;
+    background-color: #EBEBEB;
+    box-shadow: 0 0 0 8px #606067;
+    cursor: pointer;
+}
+
+.defenseMoves h3:hover {
+    text-decoration: underline;
 }
 
 .attackMoves {
