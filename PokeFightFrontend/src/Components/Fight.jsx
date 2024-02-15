@@ -17,9 +17,11 @@ const Fight = () => {
     const [loading, setLoading] = useState(true);
     const [pokemon1HPWidth, setPokemon1HPWidth] = useState(100);
     const [pokemon2HPWidth, setPokemon2HPWidth] = useState(100);
+    const [totalDamage, setTotalDamage] = useState(1);
+    const [wins, setWins] = useState(1);
 
 
-    const { getPokemon } = pokemonAPI();
+    const { getPokemon, addScore } = pokemonAPI();
 
     const getRandomPokemonId = () => {
         return Math.floor(Math.random() * 721) + 1;
@@ -31,9 +33,8 @@ const Fight = () => {
     const fetchPokemon = async () => {
         try {
             setLoading(true);
-            const { name: { english: name }, sprites: { front_default: sprite }, base: { Attack: attack }, base: { HP: hp }, base: { Defense: defense }, base: { Speed: speed } } = await getPokemon(319);
+            const { name: { english: name }, sprites: { front_default: sprite }, base: { Attack: attack }, base: { HP: hp }, base: { Defense: defense }, base: { Speed: speed } } = await getPokemon(id);
             setPokemon2({ name, speed, sprite, attack, defense, hp });
-            console.log(pokemon2)
 
         } catch (error) {
             console.log(error);
@@ -52,8 +53,8 @@ const Fight = () => {
     const [pokemon1, setPokemon1] = useState({
         name: 'PIKACHU',
         type: 'Electric',
-        hp: 110,
-        attack: 55,
+        hp: 1110,
+        attack: 155,
         defense: 40,
         spAttack: 50,
         spDefense: 50,
@@ -95,9 +96,9 @@ const Fight = () => {
         const secondAttacker = pokemon2;
 
         const damage = Math.round(20 * (firstAttacker.attack / secondAttacker.defense) * damageMultiplier1 * dodge1);
-        console.log(damage)
+        setTotalDamage(prevTotalDamage => prevTotalDamage + damage);
         const remainingHP2 = Math.max(secondAttacker.hp - damage, 0);
-        console.log(remainingHP2)
+
 
         const remainingHPPercentage2 = Math.max(0, Math.min(100, (remainingHP2 / secondAttacker.hp) * 100));
         setIsAttacking(true);
@@ -123,7 +124,7 @@ const Fight = () => {
             setTimeout(() => {
                 spirit2Faint();
                 setAttackMessage(`Enemy's ${secondAttacker.name} has fainted! You get some HP back`)
-
+                setWins(prevTotalWins => prevTotalWins + 1);
                 setPokemon1({ ...firstAttacker, hp: firstAttacker.hp + 20 });
 
 

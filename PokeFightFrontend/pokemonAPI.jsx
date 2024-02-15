@@ -35,10 +35,27 @@ const pokemonAPI = () => {
         }
     }
 
+    const addScore = async (pokeData) => {
+        try {
+            console.log("Adding user:", pokeData);
+            const res = await fetch("http://localhost:3000/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(pokeData)
+            });
+            const data = await res.json();
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
 
 
 
-    return { getPokemons, getPokemon };
+
+    return { getPokemons, getPokemon, addScore };
 }
 export default pokemonAPI;
