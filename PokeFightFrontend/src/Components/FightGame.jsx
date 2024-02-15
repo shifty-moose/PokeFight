@@ -22,7 +22,7 @@ const FightGame = ({ pokemon }) => {
     const [wins, setWins] = useState(10);
     const [name, setName] = useState('');
     const [showForm, setShowForm] = useState(false);
-    const { getPokemon, addScore, addHighscore } = pokemonAPI();
+    const { getPokemon, addHighscore } = pokemonAPI();
     const [highscore, setHighScore] = useState(1)
 
     const getRandomPokemonId = () => {
@@ -30,7 +30,6 @@ const FightGame = ({ pokemon }) => {
     };
 
     const id = getRandomPokemonId();
-
 
     const fetchPokemon = async () => {
 
@@ -49,21 +48,18 @@ const FightGame = ({ pokemon }) => {
     };
 
     const [pokemon1, setPokemon1] = useState({});
-
     const [pokemon2, setPokemon2] = useState({});
-    const [one, set1] = useState();
 
     useEffect(() => {
         fetchPokemon();
 
-        const { name, sprites: { back_default: sprite }, stats } = pokemon;
+        const { id, name, sprites: { back_default: sprite }, stats } = pokemon;
         const { base_stat: hp } = stats.find(stat => stat.stat.name === 'hp');
         const { base_stat: attack } = stats.find(stat => stat.stat.name === 'attack');
         const { base_stat: defense } = stats.find(stat => stat.stat.name === 'defense');
-        setPokemon1({ sprite, name, hp, attack, defense });
+        setPokemon1({ id, sprite, name, hp, attack, defense });
 
     }, [])
-
 
     const spirit1Attack = () => {
         animateSpriteOne(spriteOne.current, { x: 80, y: -30, transition: { duration: 0.3 } });
@@ -103,7 +99,6 @@ const FightGame = ({ pokemon }) => {
 
         const remainingHPPercentage2 = Math.max(0, Math.min(100, (remainingHP2 / secondAttacker.hp) * 100));
         setIsAttacking(true);
-
 
         // Update state for the second attacker (opponent)
         setPokemon2({ ...secondAttacker, hp: remainingHP2 });
@@ -145,7 +140,6 @@ const FightGame = ({ pokemon }) => {
 
 
         }
-
 
         setTimeout(() => {
             const damageMultiplier2 = isCriticalHit() ? 1.5 : 1;
@@ -195,6 +189,7 @@ const FightGame = ({ pokemon }) => {
         e.preventDefault(); // Prevent the default form submission
         try {
             const data = {
+                id: pokemon1.id,
                 name: name,
                 pokemon: pokemon1.name,
                 damage: totalDamage,
@@ -275,7 +270,7 @@ const FightGame = ({ pokemon }) => {
                                     <h5>HP:</h5>
                                     <div className='hpBar'>
                                         <div className='hpBarFill' style={{ width: `${pokemon1HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
-                                        <h5>{`${one}`}</h5>
+                                        <h5>{`${pokemon1.hp}`}</h5>
                                     </div>
                                 </div>
                             </div>

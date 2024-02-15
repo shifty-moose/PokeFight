@@ -85,7 +85,7 @@
 
 .fightStatsRight {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     height: 100%;
     width: 30%;
@@ -156,11 +156,11 @@
     background-image: url('../Images/fightscreengrass.png');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center 90px;
+    background-position: center 110px;
 }
 
 .pokemonSprite img {
-    height: 300px;
+    height: 250px;
     width: auto;
 }
 
@@ -168,22 +168,7 @@
     background-position: center 110px;
 }
 
-.attackMoves {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    border: 6px solid rgb(177, 177, 177);
-    background-color: #606067;
-    border-radius: 0rem;
-    padding: 0rem;
-    border: 2px solid #EFD76F;
-    box-shadow: 0 0 0 4px #606067;
-    padding-right: 6rem;
-}
+
 
 .attackMoveContainer {
     display: flex;
