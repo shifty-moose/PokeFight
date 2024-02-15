@@ -123,7 +123,7 @@ const FightGame = ({ pokemon }) => {
             if (damageMultiplier1 > 1.1 && damage > 0) {
                 setAttackMessage("It was critical")
             } else if (damage === 0) {
-                setAttackMessage(`${firstAttacker.name} missed the attack`)
+                setAttackMessage(`${firstAttacker.name.toUpperCase()} missed the attack`)
             }
         }, 1000);
         spirit1Attack();
@@ -142,10 +142,8 @@ const FightGame = ({ pokemon }) => {
 
                     setpkm2(false);
                     setTimeout(async () => {
-                        console.log(pokemon2.name, "before")
                         setAttackMessage(`Oppenent is about the send new pokemon out.`)
                         await fetchPokemon();
-                        console.log(pokemon2.name, "after")
                         setpkm2(true);
 
 
