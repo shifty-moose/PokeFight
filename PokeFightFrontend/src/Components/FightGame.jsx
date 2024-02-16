@@ -163,13 +163,14 @@ const FightGame = ({ pokemon, fightAudio }) => {
                         setAttackMessage(`Oppenent is about the send new pokemon out.`)
                         await fetchPokemon();
                         setpkm2(true);
+                        setIsAttacking(false);
 
 
                     }, 1500);
                 }, 500);
             }, 2000);
 
-
+            return 0
         }
 
         setTimeout(() => {
