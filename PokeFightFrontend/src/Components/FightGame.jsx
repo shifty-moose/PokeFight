@@ -44,12 +44,14 @@ const FightGame = ({ pokemon, fightAudio }) => {
     console.log(fightAudio)
 
     const id = getRandomPokemonId();
+    const [initialHP2, setInitialHP2] = useState(0);
 
     const fetchPokemon = async () => {
 
         try {
 
             const { name: { english: name }, sprites: { front_default: sprite }, base: { Attack: attack }, base: { HP: hp }, base: { Defense: defense }, base: { Speed: speed } } = await getPokemon(id);
+            setInitialHP2(hp)
             setPokemon2({ name, speed, sprite, attack, defense, hp });
             setPokemon2HPWidth(100)
             setPokemon2({ name, speed, sprite, attack, defense, hp });
@@ -63,6 +65,8 @@ const FightGame = ({ pokemon, fightAudio }) => {
 
     const [pokemon1, setPokemon1] = useState({});
     const [pokemon2, setPokemon2] = useState({});
+    const [initialHP, setInitialHP] = useState(0);
+
 
     useEffect(() => {
         fetchPokemon();
@@ -70,7 +74,9 @@ const FightGame = ({ pokemon, fightAudio }) => {
         const { base_stat: hp } = stats.find(stat => stat.stat.name === 'hp');
         const { base_stat: attack } = stats.find(stat => stat.stat.name === 'attack');
         const { base_stat: defense } = stats.find(stat => stat.stat.name === 'defense');
+        setInitialHP(hp);
         setPokemon1({ id, sprite, name, hp, attack, defense });
+
     }, [])
 
 
@@ -92,15 +98,25 @@ const FightGame = ({ pokemon, fightAudio }) => {
         animateSpriteTwo(spriteTwo.current, { x: 0, y: 60, transition: { duration: 0.5 } });
     }
 
-    const dodgeProbability = 0.1;
+    const dodgeProbability = 0.2;
     const criticalHitProbability = 0.1;
 
     const isDodged = () => Math.random() < dodgeProbability;
     const isCriticalHit = () => Math.random() < criticalHitProbability;
 
+
+
+
     const fight = () => {
-        const damageMultiplier1 = isCriticalHit() ? 1.5 : 1;
+
+        const damageMultiplier1 = isCriticalHit() ? 2 : 1;
         const dodge1 = isDodged() ? 0 : 1;
+
+        let remainingHP1;
+        let remainingHPPercentage1;
+
+
+
 
         const firstAttacker = pokemon1;
         const secondAttacker = pokemon2;
@@ -108,7 +124,7 @@ const FightGame = ({ pokemon, fightAudio }) => {
         const damage = Math.round(15 * (firstAttacker.attack / secondAttacker.defense) * damageMultiplier1 * dodge1);
         setTotalDamage(prevTotalDamage => prevTotalDamage + damage);
         const remainingHP2 = Math.max(secondAttacker.hp - damage, 0);
-        const remainingHPPercentage2 = Math.max(0, Math.min(100, (remainingHP2 / secondAttacker.hp) * 100));
+        const remainingHPPercentage2 = Math.max(0, Math.min(100, (remainingHP2 / initialHP2) * 100));
         setIsAttacking(true);
 
         // Update state for the second attacker (opponent)
@@ -130,9 +146,13 @@ const FightGame = ({ pokemon, fightAudio }) => {
         if (remainingHP2 === 0) {
             setTimeout(() => {
                 spirit2Faint();
-                setAttackMessage(`Enemy's ${secondAttacker.name} has fainted! You get some HP back`)
+                setAttackMessage(`Enemy's ${secondAttacker.name} has fainted! You get your HP back`)
                 setWins(prevTotalWins => prevTotalWins + 1);
-                setPokemon1({ ...firstAttacker, hp: firstAttacker.hp + 20 });
+                setPokemon1({ ...firstAttacker, hp: initialHP });
+                remainingHPPercentage1 = Math.max(0, Math.min(100, (initialHP / initialHP) * 100));
+                setPokemon1HPWidth(remainingHPPercentage1)
+
+
 
 
 
@@ -143,13 +163,14 @@ const FightGame = ({ pokemon, fightAudio }) => {
                         setAttackMessage(`Oppenent is about the send new pokemon out.`)
                         await fetchPokemon();
                         setpkm2(true);
+                        setIsAttacking(false);
 
 
                     }, 1500);
                 }, 500);
             }, 2000);
 
-
+            return 0
         }
 
         setTimeout(() => {
@@ -157,11 +178,12 @@ const FightGame = ({ pokemon, fightAudio }) => {
             const dodge2 = isDodged() ? 0 : 1;
             // Calculate damage I need to adjust it still
             const damage2 = Math.round(20 * (secondAttacker.attack / firstAttacker.defense) * damageMultiplier2 * dodge2);
-            const remainingHP1 = Math.max(firstAttacker.hp - damage2, 0);
-            const remainingHPPercentage1 = Math.max(0, Math.min(100, (remainingHP1 / pokemon1.hp) * 100));
+            remainingHP1 = Math.max(firstAttacker.hp - damage2, 0);
+            remainingHPPercentage1 = Math.max(0, Math.min(100, (remainingHP1 / initialHP) * 100));
 
             setPokemon1({ ...firstAttacker, hp: remainingHP1 });
             if (damage2 > 1) {
+
                 setPokemon1HPWidth(remainingHPPercentage1);
             }
 
@@ -259,91 +281,91 @@ const FightGame = ({ pokemon, fightAudio }) => {
 
     return (
         <>
-        <div className='fightScreenDiv'>
-            <div className="fightTopRow">
-                <div className="fightTopRowLeft">
-                    <div className='topPokemonStatScreen'>
-                        {pkm2 && (
-                            <div className='statsDiv topLeftStatsDiv'>
+            <div className='fightScreenDiv'>
+                <div className="fightTopRow">
+                    <div className="fightTopRowLeft">
+                        <div className='topPokemonStatScreen'>
+                            {pkm2 && (
+                                <div className='statsDiv topLeftStatsDiv'>
 
-                                <h3>{pokemon2.name.toUpperCase()}</h3>
-                                <div className='hpBarContainer'>
-                                    <h5>HP:</h5>
-                                    <div className='hpBar'>
-                                        <div className='hpBarFill' style={{ width: `${pokemon2HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
+                                    <h3>{pokemon2.name.toUpperCase()}</h3>
+                                    <div className='hpBarContainer'>
+                                        <h5>HP:</h5>
+                                        <div className='hpBar'>
+                                            <div className='hpBarFill' style={{ width: `${pokemon2HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
-                </div>
 
-                <div className="fightTopRowRight">
-                    <div className='pokemonSprite topPokemonSprite'>
-                        {pkm2 && <img src={pokemon2.sprite} alt={pokemon2.name} ref={spriteTwo} />}
-                    </div>
-                </div>
-            </div>
-
-            <div className="fightBottomRow">
-                <div className="fightBottomRowLeft">
-                    <div className='pokemonSprite bottomPokemonSprite'>
-                        {pokemon1.hp > 0 &&
-                            <img src={pokemon1.sprite} alt={pokemon1.name} ref={spriteOne} />}
-                    </div>
-                </div>
-
-                <div className="fightBottomRowRight">
-                    <div className='bottomPokemonStatScreen'>
-                        {pokemon1.hp > 0 && (
-                            <div className='statsDiv bottomRightStatsDiv'>
-                                <h3>{pokemon1.name.toUpperCase()}</h3>
-                                <div className='hpBarContainer'>
-                                    <h5>HP:</h5>
-                                    <div className='hpBar'>
-                                        <div className='hpBarFill' style={{ width: `${pokemon1HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
-                                        <h5>{`${pokemon1.hp}`}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            <div className="fightStats">
-                <div className="fightStatsLeft">
-                    <div className="attackMoves">
-                        <div className="attackMoveContainer">
-                            {attackMessage && <p>{attackMessage}</p>}
-
+                    <div className="fightTopRowRight">
+                        <div className='pokemonSprite topPokemonSprite'>
+                            {pkm2 && <img src={pokemon2.sprite} alt={pokemon2.name} ref={spriteTwo} />}
                         </div>
                     </div>
                 </div>
 
-                <div className="fightStatsRight">
-                    <div className="defenseMoves">
-                        {!isAttacking && <h3 onClick={fight}>TACKLE</h3>}
+                <div className="fightBottomRow">
+                    <div className="fightBottomRowLeft">
+                        <div className='pokemonSprite bottomPokemonSprite'>
+                            {pokemon1.hp > 0 &&
+                                <img src={pokemon1.sprite} alt={pokemon1.name} ref={spriteOne} />}
+                        </div>
+                    </div>
+
+                    <div className="fightBottomRowRight">
+                        <div className='bottomPokemonStatScreen'>
+                            {pokemon1.hp > 0 && (
+                                <div className='statsDiv bottomRightStatsDiv'>
+                                    <h3>{pokemon1.name.toUpperCase()}</h3>
+                                    <div className='hpBarContainer'>
+                                        <h5>HP:</h5>
+                                        <div className='hpBar'>
+                                            <div className='hpBarFill' style={{ width: `${pokemon1HPWidth}%`, transition: 'width 1.5s ease-in-out' }}></div>
+                                            <h5>{`${pokemon1.hp}/${initialHP}`}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
+
+                <div className="fightStats">
+                    <div className="fightStatsLeft">
+                        <div className="attackMoves">
+                            <div className="attackMoveContainer">
+                                {attackMessage && <p>{attackMessage}</p>}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="fightStatsRight">
+                        <div className="defenseMoves">
+                            {!isAttacking && <h3 onClick={fight}>TACKLE</h3>}
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-        </div>
-
             <div className='animationBlocks' ref={blocksRef}>
-                    <div className='singleAnimationBlockFightScreen block1' ref={leftBlock1}></div>
-                    <div className='singleAnimationBlockFightScreen block2' ref={rightBlock1}></div>
-                    <div className='singleAnimationBlockFightScreen block3' ref={leftBlock2}></div>
-                    <div className='singleAnimationBlockFightScreen block4' ref={rightBlock2}></div>
-                    <div className='singleAnimationBlockFightScreen block5' ref={leftBlock3}></div>
-                    <div className='singleAnimationBlockFightScreen block6' ref={rightBlock3}></div>
-                    <div className='singleAnimationBlockFightScreen block7' ref={leftBlock4}></div>
-                    <div className='singleAnimationBlockFightScreen block8' ref={rightBlock4}></div>
-                    <div className='singleAnimationBlockFightScreen block9' ref={leftBlock5}></div>
-                    <div className='singleAnimationBlockFightScreen block10' ref={rightBlock5}></div>
-            </div>                
+                <div className='singleAnimationBlockFightScreen block1' ref={leftBlock1}></div>
+                <div className='singleAnimationBlockFightScreen block2' ref={rightBlock1}></div>
+                <div className='singleAnimationBlockFightScreen block3' ref={leftBlock2}></div>
+                <div className='singleAnimationBlockFightScreen block4' ref={rightBlock2}></div>
+                <div className='singleAnimationBlockFightScreen block5' ref={leftBlock3}></div>
+                <div className='singleAnimationBlockFightScreen block6' ref={rightBlock3}></div>
+                <div className='singleAnimationBlockFightScreen block7' ref={leftBlock4}></div>
+                <div className='singleAnimationBlockFightScreen block8' ref={rightBlock4}></div>
+                <div className='singleAnimationBlockFightScreen block9' ref={leftBlock5}></div>
+                <div className='singleAnimationBlockFightScreen block10' ref={rightBlock5}></div>
+            </div>
         </>
-        )
+    )
 }
 
 export default FightGame;
