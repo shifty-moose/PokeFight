@@ -146,19 +146,13 @@ const FightGame = ({ pokemon, fightAudio }) => {
         if (remainingHP2 === 0) {
             setTimeout(() => {
                 spirit2Faint();
-                setAttackMessage(`Enemy's ${secondAttacker.name} has fainted! You get some HP back`)
+                setAttackMessage(`Enemy's ${secondAttacker.name} has fainted! You get your HP back`)
                 setWins(prevTotalWins => prevTotalWins + 1);
-                if (firstAttacker.hp + 30 > initialHP) {
-                    setPokemon1({ ...firstAttacker, hp: initialHP });
-                    remainingHPPercentage1 = Math.max(0, Math.min(100, (initialHP / initialHP) * 100));
-                    setPokemon1HPWidth(remainingHPPercentage1)
+                setPokemon1({ ...firstAttacker, hp: initialHP });
+                remainingHPPercentage1 = Math.max(0, Math.min(100, (initialHP / initialHP) * 100));
+                setPokemon1HPWidth(remainingHPPercentage1)
 
-                } else {
-                    setPokemon1({ ...firstAttacker, hp: firstAttacker.hp + 30 });
-                    remainingHPPercentage1 = Math.max(0, Math.min(100, (firstAttacker.hp / initialHP) * 100));
-                    setPokemon1HPWidth(remainingHPPercentage1)
 
-                }
 
 
 
